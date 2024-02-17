@@ -34,7 +34,7 @@ interface SeedData {
     params: ICompanyParams;
 }
 
-export const initialData: SeedData= {
+export var initialData: SeedData= {
     params:{
         company: "EL PAISA",
         description: "Servicio de lavado de carros",
@@ -58,12 +58,15 @@ export const initialData: SeedData= {
                 numero_documento: "42187637",
                 razon_social: "JORGE CASTILLO",
                 direccion: "CALLE 5",
-                correo: "JORGE@GMAIL"          
+                correo: "JORGE@GMAIL",
+                placas:[{placa: 'B9S-432'}],
             },
             total: 333,
             isPaid: false,
+            state: 0,
             orderItems: [
                 {
+                    uid: '1',
                     name: "Servicio de lavado de carros",
                     category: "service",
                     code: "123",
@@ -77,6 +80,7 @@ export const initialData: SeedData= {
                     total: 123
                 },
                 {
+                    uid: '2',
                     name: "Aromatizador para vehiculo",
                     category: "product",
                     code: "123",
@@ -92,22 +96,26 @@ export const initialData: SeedData= {
             ]
         },
         {
-            uid: 'OR001',
+            uid: 'OR002',
             numberOfItems: 3,
             subTotal: 123,
             tax: 321,
+            placa:'D6T-565',
             client: {
                 id_receptor: 2,
                 tipo_documento: 3,
                 numero_documento: "08811389",
                 razon_social: "ROSA PEÑARANDA",
                 direccion: "CALLE 5",
-                correo: "JORGE@GMAIL"          
+                correo: "JORGE@GMAIL",
+                placas:[{placa: 'D6T-565'}],
             },
             total: 333,
             isPaid: false,
+            state: 0,
             orderItems: [
                 {
+                    uid: "1",
                     name: "Servicio de lavado de carros",
                     category: "service",
                     code: "123",
@@ -121,8 +129,9 @@ export const initialData: SeedData= {
                     total: 123
                 },
                 {
+                    uid: "2",
                     name: "Cambio de aceite",
-                    category: "product",
+                    category: "service",
                     code: "123",
                     sunat_code: "123",
                     discount: 123,
@@ -134,7 +143,105 @@ export const initialData: SeedData= {
                     total: 123
                 }                
             ]
-        }        
+        },
+        {
+            uid: 'OR003',
+            numberOfItems: 3,
+            subTotal: 123,
+            tax: 321,
+            placa:'D6T-565',
+            client: {
+                id_receptor: 2,
+                tipo_documento: 3,
+                numero_documento: "08811389",
+                razon_social: "ROSA PEÑARANDA",
+                direccion: "CALLE 5",
+                correo: "JORGE@GMAIL",
+                placas:[{placa: 'D6T-565'}],
+            },
+            total: 333,
+            isPaid: false,
+            state: 0,
+            orderItems: [
+                {
+                    uid: "1",
+                    name: "Servicio de lavado de carros",
+                    category: "service",
+                    code: "123",
+                    sunat_code: "123",
+                    discount: 123,
+                    description: "123",
+                    unit_price: 123,
+                    unit_value: 123,
+                    unit_measure: "123",
+                    quantity: 123,
+                    total: 123
+                },
+                {
+                    uid: "2",
+                    name: "Cambio de aceite",
+                    category: "service",
+                    code: "123",
+                    sunat_code: "123",
+                    discount: 123,
+                    description: "123",
+                    unit_price: 123,
+                    unit_value: 123,
+                    unit_measure: "123",
+                    quantity: 123,
+                    total: 123
+                }                
+            ]
+        },
+        {
+            uid: 'OR004',
+            numberOfItems: 3,
+            subTotal: 123,
+            tax: 321,
+            placa:'D6T-565',
+            client: {
+                id_receptor: 2,
+                tipo_documento: 3,
+                numero_documento: "08811389",
+                razon_social: "ROSA PEÑARANDA",
+                direccion: "CALLE 5",
+                correo: "JORGE@GMAIL",
+                placas:[{placa: 'D6T-565'}],
+            },
+            total: 333,
+            isPaid: false,
+            state: 0,
+            orderItems: [
+                {
+                    uid: "1",
+                    name: "Servicio de lavado de carros",
+                    category: "service",
+                    code: "123",
+                    sunat_code: "123",
+                    discount: 123,
+                    description: "123",
+                    unit_price: 123,
+                    unit_value: 123,
+                    unit_measure: "123",
+                    quantity: 123,
+                    total: 123
+                },
+                {
+                    uid: "2",
+                    name: "Cambio de aceite",
+                    category: "service",
+                    code: "123",
+                    sunat_code: "123",
+                    discount: 123,
+                    description: "123",
+                    unit_price: 123,
+                    unit_value: 123,
+                    unit_measure: "123",
+                    quantity: 123,
+                    total: 123
+                }                
+            ]
+        }   
     ]
 
 }

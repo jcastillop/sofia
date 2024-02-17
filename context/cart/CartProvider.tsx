@@ -162,16 +162,13 @@ export const CartProvider:FC<Props> = ({ children }) => {
         }
 
         const body: IOrder = {
-            orderItems: state.cart.map( p => ({
-                ...p,
-                title: p.name!
-            })),
-            shippingAddress: state.shippingAddress,
-            numberOfItems: state.numberOfItems,
-            subTotal: state.subTotal,
-            tax: state.tax,
-            total: state.total,
-            isPaid: false
+            orderItems: [],
+            numberOfItems: 0,
+            subTotal: 0,
+            tax: 0,
+            total: 0,
+            isPaid: false,
+            state: 0
         }
 
 

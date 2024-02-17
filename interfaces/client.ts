@@ -7,7 +7,7 @@ export interface IClient {
     razon_social: string;
     direccion: string;
     correo: string;
-    placa?: string;
+    placas: IClientPlaca[]
     
     user?: IUser;
     createdAt?: string;
@@ -15,7 +15,9 @@ export interface IClient {
 }
 
 export interface IClientPlaca {
+    placa: string;
 
+    user?: IUser;
     createdAt?: string;
     updatedAt?: string;        
 }

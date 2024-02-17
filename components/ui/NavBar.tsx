@@ -3,10 +3,12 @@ import NextLink from "next/link";
 import { AppBar, Badge, Box, Button, IconButton, Link, Toolbar, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { usePathname } from 'next/navigation'
-import { ShoppingCartOutlined } from "@mui/icons-material";
+import { LibraryAddRounded } from "@mui/icons-material";
+
 import { CartContext, UiContext } from "@/context";
 import { useContext } from "react";
 import { initialData } from "@/data/seed-data";
+import { NewService } from "./NewService";
 
 export const Navbar = () => {
 
@@ -44,7 +46,8 @@ export const Navbar = () => {
             <Box flex={1}/>
             
             <Box>
-              <NextLink href="/cart" passHref legacyBehavior>
+              <NewService/>
+              {/* <NextLink href="/neworder" passHref legacyBehavior>
                 <Link>
                     <IconButton>
                         <Badge badgeContent={ numberOfItems > 9 ? '+9': numberOfItems  } color="secondary">
@@ -52,7 +55,7 @@ export const Navbar = () => {
                         </Badge>
                     </IconButton>
                 </Link>
-              </NextLink>
+              </NextLink> */}
             </Box>
 
             <Button onClick={ toggleSideMenu }>

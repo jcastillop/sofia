@@ -19,6 +19,7 @@ export interface IOrder {
     user?: IUser;
     createdAt?: string;
     updatedAt?: string;
+    state:number;
 }
 
 export interface IOrderItem {
