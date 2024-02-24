@@ -30,14 +30,26 @@ export const CartList: FC<Props> = ({ editable = false, order }) => {
         <Box>
             <Card className='summary-card'>
                 <CardContent>
-                    <Typography variant='h2'>{ `PLACA: ${order.placa}`}</Typography>
-                    <Divider sx={{ my:2 }} />
+
                     <Grid container sx={{ mt:2 }}>
+                        <Grid item xs={6}>
+                            <Typography variant='h2'>{ `PLACA: ${order.placa}`}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button color="secondary">
+                                    Agregar
+                            </Button> 
+                        </Grid>
+
+                        <Divider sx={{ my:2 }} />
                         <Grid item xs={6}>
                             <Typography>Servicios</Typography>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>asdadasd</Typography>
+ 
+                            <Button variant='text' color='secondary' onClick={ () => {} }>
+                                Remover
+                            </Button>
                         </Grid>                        
                     </Grid>
                     <Divider sx={{ my:2 }} />
