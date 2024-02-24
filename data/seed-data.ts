@@ -75,6 +75,8 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                    
                     unit_measure: "123",
                     quantity: 123,
                     total: 123
@@ -89,6 +91,8 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
                     quantity: 123,
                     total: 123
@@ -124,6 +128,8 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
                     quantity: 123,
                     total: 123
@@ -138,6 +144,8 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
                     quantity: 123,
                     total: 123
@@ -174,6 +182,8 @@ export var initialData: SeedData= {
                     unit_price: 123,
                     unit_value: 123,
                     unit_measure: "123",
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     quantity: 123,
                     total: 123
                 },
@@ -187,6 +197,8 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
                     quantity: 123,
                     total: 123
@@ -222,6 +234,8 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
                     quantity: 123,
                     total: 123
@@ -236,6 +250,8 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
                     quantity: 123,
                     total: 123

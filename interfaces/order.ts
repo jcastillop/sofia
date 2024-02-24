@@ -33,6 +33,8 @@ export interface IOrderItem {
     unit_price: number;
     unit_value: number;
     unit_measure: string;
+    tot_price: number;
+    tot_value: number;
     total: number;
     quantity: number;
 

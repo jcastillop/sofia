@@ -1,11 +1,12 @@
 "use client"
 import { FC, useContext } from 'react';
 import NextLink from 'next/link';
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Divider, Grid, Link, Typography } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Divider, Grid, Link, Stack, Typography } from '@mui/material';
 
 import { ItemCounter } from '../ui';
 import { ICartProduct, IOrder } from '@/interfaces';
 import { CartContext } from '@/context/cart';
+import { CardTravelOutlined, DryCleaningOutlined } from '@mui/icons-material';
 // import { CartContext } from '../../context';
 // import { ICartProduct, IOrderItem } from '../../interfaces';
 
@@ -26,6 +27,18 @@ export const CartList: FC<Props> = ({ editable = false, order }) => {
 
     // const productsToShow = products ? products : cart;
 
+    const { totService } = order.orderItems.filter((item)=>(item.category == "service")).map((item)=>({totService: +item.tot_price}))
+    .reduce((a,b)=>{
+        return({
+            totService: a.totService + b.totService || 0,
+        })},{totService: 0})
+
+    const { totProduct } = order.orderItems.filter((item)=>(item.category == "product")).map((item)=>({totProduct: +item.tot_price}))
+    .reduce((a,b)=>{
+        return({
+            totProduct: a.totProduct + b.totProduct || 0,
+        })},{totProduct: 0})                                    
+
     return (
         <Box>
             <Card className='summary-card'>
@@ -34,20 +47,50 @@ export const CartList: FC<Props> = ({ editable = false, order }) => {
                     <Divider sx={{ my:2 }} />
                     <Grid container sx={{ mt:2 }}>
                         <Grid item xs={6}>
-                            <Typography>Servicios</Typography>
+                            <Stack direction="row" alignItems="center" gap={1}>
+                                <DryCleaningOutlined />
+                                <Typography variant='h6'>Servicios</Typography>
+                            </Stack>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>asdadasd</Typography>
-                        </Grid>                        
+                            <Typography variant='h6'>S/ {totService}</Typography>
+                        </Grid>
+                        {
+                            order.orderItems.filter(item=>item.category=="service").map(item=>(
+                                <Grid container key={item.uid}>
+                                    <Grid item xs={6}>
+                                        <Typography variant="body1">{item.name}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} display='flex' justifyContent='end'>
+                                        <Typography>S/ {item.unit_price}</Typography>
+                                    </Grid>                                
+                                </Grid>
+                            ))
+                        }                                              
                     </Grid>
                     <Divider sx={{ my:2 }} />
                     <Grid container sx={{ mt:2 }}>
                         <Grid item xs={6}>
-                            <Typography>Productos</Typography>
+                            <Stack direction="row" alignItems="center" gap={1}>
+                                <CardTravelOutlined />                            
+                                <Typography variant='h6'>Productos</Typography>
+                            </Stack>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>asdadasd</Typography>
-                        </Grid>                        
+                            <Typography variant='h6'>S/ {totProduct}</Typography>
+                        </Grid>       
+                        {
+                            order.orderItems.filter(item=>item.category=="product").map(item=>(
+                                <Grid container key={item.uid}>
+                                    <Grid item xs={6}>
+                                        <Typography variant="body1">{item.name}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} display='flex' justifyContent='end'>
+                                        <Typography>S/ {item.unit_price}</Typography>
+                                    </Grid>                                
+                                </Grid>
+                            ))
+                        }                                          
                     </Grid>                    
                 </CardContent>
             </Card>
