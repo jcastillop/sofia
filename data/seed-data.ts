@@ -39,8 +39,8 @@ export var initialData: SeedData= {
         company: "EL PAISA",
         description: "Servicio de lavado de carros",
         pages: [
-            { id: 1, name: "Servicios", order: 1, description: "Registro de servicios a realizar", link:"/", isHomeLink: true, isDefault : true },
-            { id: 2, name: "Historico", order: 2, description: "Historico de servicios realizados", link:"/history", isHomeLink: true, isDefault : false },
+            { id: 1, name: "Ordenes", order: 1, description: "Registro de ordenes a realizar", link:"/", isHomeLink: true, isDefault : true },
+            { id: 2, name: "Histórico", order: 2, description: "Historico de servicios realizados", link:"/history", isHomeLink: true, isDefault : false },
             { id: 3, name: "Perfil", order: 1, description: "Perfil del operador", link:"/profile", isHomeLink: false, isDefault : false },
             { id: 4, name: "Productos", order: 2, description: "Perfil del operador", link:"/products", isHomeLink: false, isDefault : false },
         ]
@@ -75,8 +75,10 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                    
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
                 },
                 {
@@ -89,10 +91,28 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
-                }                
+                },
+                {
+                    uid: '3',
+                    name: "Liquido refrigerante",
+                    category: "product",
+                    code: "123",
+                    sunat_code: "123",
+                    discount: 123,
+                    description: "123",
+                    unit_price: 123,
+                    unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
+                    unit_measure: "123",
+                    quantity: 10,
+                    total: 123
+                }                               
             ]
         },
         {
@@ -124,8 +144,10 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
                 },
                 {
@@ -138,8 +160,10 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
                 }                
             ]
@@ -174,7 +198,9 @@ export var initialData: SeedData= {
                     unit_price: 123,
                     unit_value: 123,
                     unit_measure: "123",
-                    quantity: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
+                    quantity: 10,
                     total: 123
                 },
                 {
@@ -187,8 +213,10 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 3,
                     total: 123
                 }                
             ]
@@ -222,8 +250,10 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 1,
                     total: 123
                 },
                 {
@@ -236,8 +266,10 @@ export var initialData: SeedData= {
                     description: "123",
                     unit_price: 123,
                     unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 2,
                     total: 123
                 }                
             ]

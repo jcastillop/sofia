@@ -5,16 +5,16 @@ import { useRouter } from "next/router";
 import { usePathname } from 'next/navigation'
 import { LibraryAddRounded } from "@mui/icons-material";
 
-import { CartContext, UiContext } from "@/context";
+import { OrderContext, UiContext } from "@/context";
 import { useContext } from "react";
 import { initialData } from "@/data/seed-data";
-import { NewService } from "./NewService";
+import { ModalNewOrder } from "..";
 
 export const Navbar = () => {
 
   const asPath = usePathname()
   const { toggleSideMenu } = useContext( UiContext );
-  const { numberOfItems } = useContext( CartContext );
+  const { numberOfItems } = useContext( OrderContext );
   
   
 
@@ -46,7 +46,7 @@ export const Navbar = () => {
             <Box flex={1}/>
             
             <Box>
-              <NewService/>
+              <ModalNewOrder/>
               {/* <NextLink href="/neworder" passHref legacyBehavior>
                 <Link>
                     <IconButton>

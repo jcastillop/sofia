@@ -21,7 +21,7 @@ export default function Home() {
   // })  
   return (
     <MainLayout title={`${initialData.params.company}-${initialData.params.description}`} pageDescription={'Productos y servicios de ventas'} imageFullUrl={''}>
-        <Typography variant='h1' component='h1'>Servicios</Typography>
+        <Typography variant='h1' component='h1'>Órdenes</Typography>
         <Typography variant='h2' sx={{ mb: '30px' }}>Listado de unidades en servicio</Typography>
 
         {

@@ -1,12 +1,15 @@
 'use client'
-import React from 'react'
+import React, { useContext } from 'react'
 import { NextPage } from 'next'
 import { Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 
 import { MainLayout } from '@/components'
 import { useForm } from 'react-hook-form';
-import { CartList, CartSummary } from '@/components/cart'
+
 import { initialData } from '@/data/seed-data'
+import { OrderDetail, OrderSummary } from '@/components/orders'
+import { OrderContext } from '@/context'
+import { IOrder } from '@/interfaces'
 
 type FormData = {
     tipoDocumento: string;
@@ -18,6 +21,8 @@ type FormData = {
 }
 
 const Page: NextPage = () => {
+
+    const { isLoaded, ...rest } = useContext(OrderContext)
 
     const { register, reset, watch, handleSubmit, trigger, setValue, getValues, formState: { errors } }  = useForm<FormData>({
         defaultValues: {
@@ -35,10 +40,10 @@ const Page: NextPage = () => {
             <form onSubmit={ handleSubmit( onSubmitOrder ) }>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={7} sx={{mt:2}}>
-                        <CartList order={ initialData.orders[0] }/>
+                        <OrderDetail editable={ true } order={ rest as IOrder }/>
                     </Grid>
                     <Grid item xs={12} sm={5} sx={{mt:2}}>
-                        <CartSummary order={ initialData.orders[0] } isCartSummary={false}/>                       
+                        <OrderSummary isCartSummary={false}/>                       
                     </Grid>
                 </Grid>
             </form>

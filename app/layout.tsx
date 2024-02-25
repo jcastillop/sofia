@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 import { SessionProvider } from "next-auth/react";
-import { UiProvider } from "@/context";
+import { OrderProvider, UiProvider } from "@/context";
 import { lightTheme } from "@/themes";
 import { ThemeProvider } from "@emotion/react";
 
@@ -18,9 +18,11 @@ export default function RootLayout({
     <SessionProvider>
       <html lang="en">
         <UiProvider>
-        <ThemeProvider theme={ lightTheme }>
-          <body className={inter.className}>{children}</body>
-        </ThemeProvider>
+          <OrderProvider>
+            <ThemeProvider theme={ lightTheme }>
+              <body className={inter.className}>{children}</body>
+            </ThemeProvider>
+          </OrderProvider>
         </UiProvider>
       </html>
     </SessionProvider>

@@ -1,14 +1,18 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import NextLink from 'next/link';
 import { Grid, Card, CardHeader, IconButton, Badge, CardContent, Typography, CardActions, Button, Box, Stack, Link } from "@mui/material";
 import { DryCleaningOutlined, CardTravelOutlined } from '@mui/icons-material';
 import { IOrder } from "@/interfaces";
+import { OrderContext } from "@/context";
 
 interface Props {
     order: IOrder;
 }
 
 export const OrderCard: FC<Props> = ({ order }) => {
+
+    const { setOrder } = useContext(OrderContext)
+
     return (
         <Grid item 
             xs={6} 
@@ -21,7 +25,9 @@ export const OrderCard: FC<Props> = ({ order }) => {
                 passHref 
                 prefetch={false} 
                 legacyBehavior>
-                <Link>
+                <Link
+                    onClick={ () => setOrder( order ) }
+                >
                     <Card sx={{ maxWidth: 345 }}>
                         <CardContent>             
                             <Typography gutterBottom variant="h4" component="div">{ order.placa }</Typography>

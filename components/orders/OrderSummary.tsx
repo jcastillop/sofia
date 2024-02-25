@@ -1,18 +1,24 @@
 "use client"
 import { FC, useContext } from 'react';
 import { Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
-import { CartContext } from '../../context/cart/CartContext';
-import { IOrder } from '@/interfaces';
+import { OrderContext } from '@/context';
 
 
 interface Props {
+    orderValues?: {
+        numberOfItems: number;
+        subTotal: number;
+        total: number;
+        tax: number;
+    },
     isCartSummary: boolean;
-    order: IOrder;
 }
 
-export const CartSummary: FC<Props> = ({ order, isCartSummary }) => {
+export const OrderSummary: FC<Props> = ({ orderValues, isCartSummary }) => {
     
-    const { numberOfItems, subTotal, total, tax } = useContext( CartContext );
+    const { numberOfItems, subTotal, total, tax } = useContext( OrderContext );
+    
+    const summaryValues = orderValues ? orderValues : { numberOfItems, subTotal, total, tax };
 
     return (
         <Box>
@@ -26,25 +32,25 @@ export const CartSummary: FC<Props> = ({ order, isCartSummary }) => {
                             <Typography>No. Productos/Servicios</Typography>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>{order.numberOfItems} { order.numberOfItems > 1 ? 'productos': 'producto' }</Typography>
+                            <Typography>{summaryValues.numberOfItems}</Typography>
                         </Grid>
                         <Grid item xs={6}>
                             <Typography>SubTotal</Typography>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>S/ { order.subTotal }</Typography>
+                            <Typography>S/ { summaryValues.subTotal.toFixed(2) }</Typography>
                         </Grid>
                         <Grid item xs={6}>
-                            <Typography>Impuestos ({ Number(process.env.NEXT_PUBLIC_TAX_RATE) }%)</Typography>
+                            <Typography>Impuestos ({ Number(process.env.NEXT_PUBLIC_TAX_RATE) * 100 }%)</Typography>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>S/ { order.tax }</Typography>
+                            <Typography>S/ { summaryValues.tax.toFixed(2) }</Typography>
                         </Grid>
                         <Grid item xs={6} sx={{ mt:2 }}>
                             <Typography variant="subtitle1">Total:</Typography>
                         </Grid>
                         <Grid item xs={6} sx={{ mt:2 }} display='flex' justifyContent='end'>
-                            <Typography variant="subtitle1">S/ { order.total }</Typography>
+                            <Typography variant="subtitle1">S/ { summaryValues.total.toFixed(2) }</Typography>
                         </Grid>
                     </Grid>
                 </CardContent>

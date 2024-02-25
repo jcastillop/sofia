@@ -3,7 +3,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextFiel
 import { IOrder, IOrderItem } from "@/interfaces";
 import { initialData } from "@/data/seed-data";
 
-export const NewService: FC = () => {
+export const ModalNewOrder: FC = () => {
     const inputRef  = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [placa, setPlaca] = useState("")
@@ -14,8 +14,7 @@ export const NewService: FC = () => {
         setOpen(false);
     };
     const handleAddService = ( value:string ) => {
-        console.log(placa + "-" + value)
-        const orserService: IOrder = {
+        const orderService: IOrder = {
             orderItems: [],
             placa: placa + "-" + value,
             numberOfItems: 0,
