@@ -39,8 +39,8 @@ export const NewService: FC = () => {
                 disableRestoreFocus={true}
             >
                 <DialogTitle>Ingrese la placa del vehículo</DialogTitle>
-                <DialogContent>
-                    <Grid container spacing={0}>
+                <DialogContent sx={{display: "flex", justifyContent:"center", alignItems:"center"}}>
+                    <Grid container spacing={0} sx={{ width: 150}}>
                         <Grid item xs={12} sm={12} sx={{display: "flex", justifyContent:"center", alignItems:"center"}}>
                             <TextField
                                 onChange={(e)=>{
@@ -57,7 +57,7 @@ export const NewService: FC = () => {
                                 type="text"
                                 fullWidth
                                 variant="outlined"
-                                inputProps={{ style: { textTransform: "uppercase", fontSize:20, padding:5, width:50 }, maxLength: 3 }}
+                                inputProps={{ style: { textTransform: "uppercase", fontSize:30, padding:5 }, maxLength: 3 }}
                             />
                             <Typography variant='h1' component='h1'>-</Typography>
                             <TextField
@@ -74,7 +74,7 @@ export const NewService: FC = () => {
                                 type="text"
                                 fullWidth
                                 variant="outlined"
-                                inputProps={{ style: { textTransform: "uppercase", fontSize:20, padding:5, width:50 }, maxLength: 3 }}
+                                inputProps={{ style: { textTransform: "uppercase", fontSize:30, padding:5}, maxLength: 3 }}
                             />                             
                         </Grid>                        
                     </Grid>            

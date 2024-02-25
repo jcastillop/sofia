@@ -38,28 +38,24 @@ export const SideMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary={'Mi perfil'} />
                 </ListItemButton>
-                <ListItemButton LinkComponent={Link} href="/cierre/cierreturno">
+
+                <ListItemButton LinkComponent={Link} href="/cierre">
                     <ListItemIcon>
                         <SavingsOutlined/>
                     </ListItemIcon>
                     <ListItemText primary={'Cerrar turno'} />
-                </ListItemButton>
+                </ListItemButton>   
+
+                <Divider />
+
                 <ListItemButton onClick={ logout }>
                     <ListItemIcon>
                         <LoginOutlined/>
                     </ListItemIcon>
                     <ListItemText primary={'Cerrar sesión'} />
-                </ListItemButton>  
+                </ListItemButton>                  
 
-                <Divider />
-
-                <ListSubheader>Admin Panel</ListSubheader>
-                <ListItemButton LinkComponent={Link} href="/cierre">
-                    <ListItemIcon>
-                        <InsertInvitationOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Cerrar día'} />
-                </ListItemButton>                                                                   
+                                                                
             </List>
         </Box>       
     </Drawer>

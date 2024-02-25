@@ -38,7 +38,7 @@ const Page: NextPage = () => {
                         <CartList order={ initialData.orders[0] }/>
                     </Grid>
                     <Grid item xs={12} sm={5} sx={{mt:2}}>
-                        <CartSummary isCartSummary={false}/>                       
+                        <CartSummary order={ initialData.orders[0] } isCartSummary={false}/>                       
                     </Grid>
                 </Grid>
             </form>

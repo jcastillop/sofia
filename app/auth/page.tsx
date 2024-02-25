@@ -18,10 +18,10 @@ const LoginPage = () => {
 
     return(
         <form  onSubmit={ handleSubmit(onSubmit) } noValidate>
-        <Box sx={{width:350, padding:'50% 20px'}}>
+        <Box sx={{width:350, padding:'15% 40%'}}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography variant='h1' component='h1'>FUEL-HUB</Typography>
+                    <Typography variant='h1' component='h1'>EL PAISA</Typography>
                     
                     
                 </Grid>
