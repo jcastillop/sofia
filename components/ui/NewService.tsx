@@ -31,7 +31,7 @@ export const NewService: FC = () => {
     return(
         <>
             <Button color="secondary" onClick={handleClickOpen} >
-                NUEVO SERVICIO
+                Nuevo servicio
             </Button>         
             <Dialog
                 open={open}

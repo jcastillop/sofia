@@ -78,7 +78,7 @@ export var initialData: SeedData= {
                     tot_price: 123,
                     tot_value: 123,                    
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
                 },
                 {
@@ -94,9 +94,25 @@ export var initialData: SeedData= {
                     tot_price: 123,
                     tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
-                }                
+                },
+                {
+                    uid: '3',
+                    name: "Liquido refrigerante",
+                    category: "product",
+                    code: "123",
+                    sunat_code: "123",
+                    discount: 123,
+                    description: "123",
+                    unit_price: 123,
+                    unit_value: 123,
+                    tot_price: 123,
+                    tot_value: 123,                                        
+                    unit_measure: "123",
+                    quantity: 10,
+                    total: 123
+                }                               
             ]
         },
         {
@@ -131,7 +147,7 @@ export var initialData: SeedData= {
                     tot_price: 123,
                     tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
                 },
                 {
@@ -147,7 +163,7 @@ export var initialData: SeedData= {
                     tot_price: 123,
                     tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
                 }                
             ]
@@ -184,7 +200,7 @@ export var initialData: SeedData= {
                     unit_measure: "123",
                     tot_price: 123,
                     tot_value: 123,                                        
-                    quantity: 123,
+                    quantity: 10,
                     total: 123
                 },
                 {
@@ -200,7 +216,7 @@ export var initialData: SeedData= {
                     tot_price: 123,
                     tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 3,
                     total: 123
                 }                
             ]
@@ -237,7 +253,7 @@ export var initialData: SeedData= {
                     tot_price: 123,
                     tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 1,
                     total: 123
                 },
                 {
@@ -253,7 +269,7 @@ export var initialData: SeedData= {
                     tot_price: 123,
                     tot_value: 123,                                        
                     unit_measure: "123",
-                    quantity: 123,
+                    quantity: 2,
                     total: 123
                 }                
             ]

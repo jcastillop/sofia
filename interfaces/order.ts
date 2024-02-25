@@ -14,7 +14,7 @@ export interface IOrder {
     total        : number;
 
     isPaid  : boolean;
-    placa? : string;
+    placa : string;
 
     user?: IUser;
     createdAt?: string;

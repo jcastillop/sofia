@@ -1,7 +1,8 @@
 "use client"
 import { FC, useContext } from 'react';
 import { Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
-import { CartContext } from '../../context/cart/CartContext';
+import { OrderContext } from '@/context';
+
 
 interface Props {
     orderValues?: {
@@ -13,9 +14,9 @@ interface Props {
     isCartSummary: boolean;
 }
 
-export const CartSummary: FC<Props> = ({ orderValues, isCartSummary }) => {
+export const OrderSummary: FC<Props> = ({ orderValues, isCartSummary }) => {
     
-    const { numberOfItems, subTotal, total, tax } = useContext( CartContext );
+    const { numberOfItems, subTotal, total, tax } = useContext( OrderContext );
     
     const summaryValues = orderValues ? orderValues : { numberOfItems, subTotal, total, tax };
 
