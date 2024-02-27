@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { Box, Divider, Drawer, Link, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
-import { CloseOutlined, InsertInvitationOutlined, LoginOutlined, PersonOutlineOutlined, SavingsOutlined } from "@mui/icons-material"
+import { CloseOutlined, InsertInvitationOutlined, InventoryOutlined, LoginOutlined, PersonOutlineOutlined, SavingsOutlined } from "@mui/icons-material"
 
 import { signOut, useSession } from 'next-auth/react';
 import { UiContext } from "@/context";
@@ -38,6 +38,12 @@ export const SideMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary={'Mi perfil'} />
                 </ListItemButton>
+                <ListItemButton LinkComponent={Link} href="/products">
+                    <ListItemIcon>
+                        <InventoryOutlined/>
+                    </ListItemIcon>
+                    <ListItemText primary={'Productos'} />
+                </ListItemButton>                   
 
                 <ListItemButton LinkComponent={Link} href="/cierre">
                     <ListItemIcon>

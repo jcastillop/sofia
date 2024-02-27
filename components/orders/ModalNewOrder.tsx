@@ -1,3 +1,4 @@
+"use client"
 import { FC, useRef, useState } from "react";
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Grid, Typography } from "@mui/material";
 import { IOrder, IOrderItem } from "@/interfaces";
@@ -29,7 +30,7 @@ export const ModalNewOrder: FC = () => {
     
     return(
         <>
-            <Button color="secondary" onClick={handleClickOpen} >
+            <Button color="secondary" onClick={handleClickOpen} sx={{ mb: '20px' }}>
                 Nuevo servicio
             </Button>         
             <Dialog

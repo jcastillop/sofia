@@ -2,6 +2,7 @@ import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import NextAuth from 'next-auth'
+import { spaxionApi } from '@/api'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -22,6 +23,11 @@ export const options: NextAuthOptions = {
             async authorize(credentials) {
                 console.log("autorizando")
                 console.log(credentials)
+                const body = {
+                    "user": credentials?.username,
+                    "password": Buffer.from(credentials!.password, 'binary').toString('base64')
+                  }                
+                const { data } = await spaxionApi.post(`${process.env.NEXT_PUBLIC_URL_RESTSERVER}/api/usuarios/login`, body);
                 // This is where you need to retrieve user data 
                 // to verify with credentials
                 // Docs: https://next-auth.js.org/configuration/providers/credentials

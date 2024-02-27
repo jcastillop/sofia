@@ -51,7 +51,7 @@ export const OrderDetail: FC<Props> = ({ editable = false }) => {
                             <Stack direction="row" alignItems="center" gap={1}>
                                 {
                                     editable?
-                                    <ModalNewOrderItem />:<DryCleaningOutlined/>
+                                    <ModalNewOrderItem category='service' orderitems={ orderItems }/>:<DryCleaningOutlined/>
                                 }
                                 <Typography variant='h6'>Servicios</Typography>
                             </Stack>
@@ -99,7 +99,7 @@ export const OrderDetail: FC<Props> = ({ editable = false }) => {
                             <Stack direction="row" alignItems="center" gap={1}>           
                                 {
                                     editable?
-                                    <ModalNewOrderItem />:<CardTravelOutlined/>
+                                    <ModalNewOrderItem category='product' orderitems={ orderItems }/>:<CardTravelOutlined/>
                                 }
                                 <Typography variant='h6'>Productos</Typography>
                                 {/* <Typography variant="caption" display="block" sx={{ color:'green', fontWeight:'bold' }} gutterBottom>

@@ -46,7 +46,6 @@ export const Navbar = () => {
             <Box flex={1}/>
             
             <Box>
-              <ModalNewOrder/>
               {/* <NextLink href="/neworder" passHref legacyBehavior>
                 <Link>
                     <IconButton>

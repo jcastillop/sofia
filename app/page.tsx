@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { MainLayout } from '@/components';
 import { Typography } from "@mui/material";
 import { initialData } from "@/data/seed-data";
-import { OrderList } from "@/components/orders";
+import { ModalNewOrder, OrderList } from "@/components/orders";
 
 export default function Home() {
   // const { data: session } = useSession()
@@ -22,12 +22,9 @@ export default function Home() {
   return (
     <MainLayout title={`${initialData.params.company}-${initialData.params.description}`} pageDescription={'Productos y servicios de ventas'} imageFullUrl={''}>
         <Typography variant='h1' component='h1'>Órdenes</Typography>
-        <Typography variant='h2' sx={{ mb: '30px' }}>Listado de unidades en servicio</Typography>
-
-        {
-          <OrderList orders={ initialData.orders } />
-        }
-
+        <Typography variant='h2' sx={{ mb: '10px' }}>Listado de unidades en servicio</Typography>
+        <ModalNewOrder/>
+        <OrderList orders={ initialData.orders }/>
     </MainLayout>
   )
 }

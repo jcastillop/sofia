@@ -1,11 +1,18 @@
+"use client"
 import { FC, useRef, useState } from "react";
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Grid, Typography, IconButton } from "@mui/material";
-import { IOrder, IOrderItem } from "@/interfaces";
+import { ICategory, IOrder, IOrderItem } from "@/interfaces";
 import { initialData } from "@/data/seed-data";
 import { AddCircle } from "@mui/icons-material";
 import { OrderList } from ".";
+import { ProductList } from "../products/ProductList";
 
-export const ModalNewOrderItem: FC = () => {
+interface Props {
+    category: ICategory;
+    orderitems?: IOrderItem[]
+}
+
+export const ModalNewOrderItem: FC<Props> = ({ category, orderitems }) => {
     const inputRef  = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [placa, setPlaca] = useState("")
@@ -39,10 +46,11 @@ export const ModalNewOrderItem: FC = () => {
                 open={open}
                 onClose={handleClose}
                 disableRestoreFocus={true}
+                fullWidth
             >
                 <DialogTitle>Productos/Servicios</DialogTitle>
                 <DialogContent sx={{display: "flex", justifyContent:"center", alignItems:"center"}}>
-                    <OrderList orders={ initialData.orders } />
+                    <ProductList products={ initialData.products } category={category} orderitems={orderitems}/>
                 </DialogContent>
             </Dialog>              
         </>

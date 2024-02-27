@@ -1,4 +1,4 @@
-import { IOrder, IOrderItem } from "@/interfaces";
+import { IOrder, IOrderItem, IProduct } from "@/interfaces";
 import { IClient } from "@/interfaces/client";
 
 interface ISlot{
@@ -31,6 +31,7 @@ interface ICompanyParams{
 
 interface SeedData {
     orders: IOrder[];
+    products: IProduct[];
     params: ICompanyParams;
 }
 
@@ -45,6 +46,104 @@ export var initialData: SeedData= {
             { id: 4, name: "Productos", order: 2, description: "Perfil del operador", link:"/products", isHomeLink: false, isDefault : false },
         ]
     },
+    products:[
+        {
+            uid: "1",
+            name: "Servicio de lavado de carros 1",
+            category: "service",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Servicio de lavado de carros autos",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        },
+        {
+            uid: "2",
+            name: "Aromatizador para vehiculo 2",
+            category: "product",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Aromatizador para vehiculo pino",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        },        
+        {
+            uid: "3",
+            name: "Liquido refrigerante",
+            category: "product",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Servicio de lavado de carros autos",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        },
+        {
+            uid: "4",
+            name: "Aromatizador para vehiculo 4",
+            category: "product",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Aromatizador para vehiculo pino",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        }, 
+        {
+            uid: "5",
+            name: "Servicio de lavado de carros 5",
+            category: "service",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Servicio de lavado de carros autos",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        },
+        {
+            uid: "6",
+            name: "Aromatizador para vehiculo 6",
+            category: "product",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Aromatizador para vehiculo pino",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        },        
+        {
+            uid: "7",
+            name: "Cambio de aceite",
+            category: "service",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Servicio de lavado de carros autos",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        },
+        {
+            uid: "8",
+            name: "Aromatizador para vehiculo 8",
+            category: "product",
+            code: "123",
+            sunat_code: "123",
+            discount: 0,
+            description: "Aromatizador para vehiculo pino",
+            unit_price: 123,
+            unit_value: 123,
+            unit_measure: "NIU"
+        }, 
+    ],
     orders: [
         {
             uid: 'OR001',
@@ -67,7 +166,7 @@ export var initialData: SeedData= {
             orderItems: [
                 {
                     uid: '1',
-                    name: "Servicio de lavado de carros",
+                    name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
                     sunat_code: "123",
@@ -83,7 +182,7 @@ export var initialData: SeedData= {
                 },
                 {
                     uid: '2',
-                    name: "Aromatizador para vehiculo",
+                    name: "Aromatizador para vehiculo 2",
                     category: "product",
                     code: "123",
                     sunat_code: "123",
@@ -136,7 +235,7 @@ export var initialData: SeedData= {
             orderItems: [
                 {
                     uid: "1",
-                    name: "Servicio de lavado de carros",
+                    name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
                     sunat_code: "123",
@@ -151,7 +250,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: "2",
+                    uid: "7",
                     name: "Cambio de aceite",
                     category: "service",
                     code: "123",
@@ -189,7 +288,7 @@ export var initialData: SeedData= {
             orderItems: [
                 {
                     uid: "1",
-                    name: "Servicio de lavado de carros",
+                    name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
                     sunat_code: "123",
@@ -204,7 +303,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: "2",
+                    uid: "7",
                     name: "Cambio de aceite",
                     category: "service",
                     code: "123",
@@ -242,7 +341,7 @@ export var initialData: SeedData= {
             orderItems: [
                 {
                     uid: "1",
-                    name: "Servicio de lavado de carros",
+                    name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
                     sunat_code: "123",
@@ -257,7 +356,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: "2",
+                    uid: "7",
                     name: "Cambio de aceite",
                     category: "service",
                     code: "123",

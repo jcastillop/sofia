@@ -1,3 +1,4 @@
 export * from './layouts';
-export * from './ui';
 export * from './orders';
+export * from './products';
+export * from './ui';
