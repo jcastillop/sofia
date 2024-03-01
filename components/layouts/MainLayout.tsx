@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { FC, ReactNode } from "react";
-import { Navbar, SideMenu } from "../ui";
+import { Alerta, Navbar, SideMenu } from "../ui";
 
 interface Props {
     children?: ReactNode;
@@ -30,6 +30,8 @@ export const MainLayout: FC<Props> = ({ children, title, pageDescription, imageF
         </nav>
 
         <SideMenu />
+        
+        <Alerta/>
 
         <main style={{
             margin: '80px auto',

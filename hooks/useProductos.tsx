@@ -30,9 +30,10 @@ export const useProducts = () => {
 
 export const saveProduct = async (product: IProducto):Promise<{ hasError: boolean; message: string; producto: IProducto| null; }> => {
 
+    console.log("entrando a saveProduct")
     try {
 
-        const { data: { messsage, hasError, producto }}: AxiosResponse<{messsage: string; hasError: boolean; producto: IProducto|null}> = await spaxionApi.post(`/productos`, new ProductoStorage(product));
+        const { data: { messsage, hasError, producto } }: AxiosResponse<{messsage: string; hasError: boolean; producto: IProducto|null}> = await spaxionApi.post(`/productos`, product);
 
         if(producto){
             return {
@@ -48,7 +49,7 @@ export const saveProduct = async (product: IProducto):Promise<{ hasError: boolea
             } 
         }
     } catch (error: any) {
-        
+        console.log(error.toString())
         return {
             hasError: true,
             producto: null,
@@ -59,17 +60,25 @@ export const saveProduct = async (product: IProducto):Promise<{ hasError: boolea
 }
 
 
-export const updateProduct = async ( producto: IProducto):Promise<{ hasError: boolean; message: string; producto?: IProducto; }> => {
+export const updateProduct = async ( product: IProducto ):Promise<{ hasError: boolean; message: string; producto?: IProducto| null; }> => {
 
     try {
 
-        const { data } = await spaxionApi.post(`${process.env.NEXT_PUBLIC_URL_RESTSERVER}/api/productos/`, producto);
+        const { data: { messsage, hasError, producto } }: AxiosResponse<{messsage: string; hasError: boolean; producto: IProducto|null}> = await spaxionApi.post(`/productos/actualizar`, product);
 
-        return {
-            hasError: data.hasError,
-            producto: data.producto,
-            message: data.message
-        }        
+        if(producto){
+            return {
+                hasError: hasError,
+                producto: producto,
+                message: messsage
+            }    
+        }else{
+            return {
+                hasError: hasError,
+                producto: null,
+                message: messsage
+            } 
+        }     
 
     } catch (error: any) {
         

@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import { OrderProvider, UiProvider } from "@/context";
 import { lightTheme } from "@/themes";
 import { ThemeProvider } from "@emotion/react";
+import { Alerta } from "@/components";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <SessionProvider>
-      <html lang="en">
+      <html lang="es">
         <UiProvider>
           <OrderProvider>
             <ThemeProvider theme={ lightTheme }>

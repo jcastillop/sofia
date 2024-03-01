@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 import { Grid, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useSession } from 'next-auth/react'
-import { IProducto } from '@/interfaces';
+import { ICategoria, IProducto } from '@/interfaces';
 import { useProducts } from '@/hooks';
 import { MainLayout, ProductDialog } from '@/components';
 import { nuevoProducto } from '@/data/initial';
@@ -18,33 +18,36 @@ const ProductPage: NextPage = () => {
   if ( !products ) return (<></>);
 
   const rows = products.map( (product: IProducto) => ({
-    id          : product.uid,
-    nombre        : product.nombre,
-    codigo        : product.codigo,
-    codigo_sunat  : product.codigo_sunat,
-    descuento    : product.descuento,
-    descripcion : product.descripcion,
-    precio_unitario  : product.precio_unitario,
+    id              : product._id,
+    nombre          : product.nombre,
+    id_categoria    : (product.categoria as ICategoria)._id,
+    categoria       : (product.categoria as ICategoria).nombre,
+    codigo          : product.codigo,
+    codigo_sunat    : product.codigo_sunat,
+    descuento       : product.descuento,
+    descripcion     : product.descripcion,
+    precio_unitario : product.precio_unitario,
     valor_unitario  : product.valor_unitario,
-    unidad_medida: product.unidad_medida
+    unidad_medida   : product.unidad_medida
   }));
 
   const columns: GridColDef[] = [
-    { field: 'nombre', headerName: 'Nombre', width: 150 },
-    { field: 'codigo', headerName: 'Código', width: 150 },
-    { field: 'codigo_sunat', headerName: 'SUNAT', width: 50 },
-    { field: 'descuento', headerName: 'Descuento', width: 70 },
-    { field: 'descripcion', headerName: 'Descripcion', width: 400 },
+    { field: 'nombre',          headerName: 'Nombre', width: 150 },
+    { field: 'categoria',       headerName: 'Categoria', width: 150 },
+    { field: 'codigo',          headerName: 'Código', width: 150 },
+    { field: 'codigo_sunat',    headerName: 'SUNAT', width: 50 },
+    { field: 'unidad_medida',   headerName: 'Unidad de medida', width: 100 },
+    { field: 'descripcion',     headerName: 'Descripcion', width: 400 },
     { field: 'precio_unitario', headerName: 'Precio unitario', width: 100 },
-    { field: 'valor_unitario', headerName: 'Valor unitario', width: 100 },
-    { field: 'unidad_medida', headerName: 'Unidad de medida', width: 100 },
+    { field: 'valor_unitario',  headerName: 'Valor unitario', width: 100 },
+    { field: 'descuento',       headerName: 'Descuento', width: 70 },
     {
       field: 'accion',
       headerName: '',
 
       renderCell: (params: GridRenderCellParams) => {
         const dataProducto: IProducto = {
-          uid: params.row.id,
+          _id: params.row.id,
           nombre: params.row.nombre,
           codigo: params.row.codigo,
           codigo_sunat: params.row.codigo_sunat,
@@ -54,20 +57,10 @@ const ProductPage: NextPage = () => {
           valor_unitario: params.row.valor_unitario,
           unidad_medida: params.row.unidad_medida,
           categoria: {
-            nombre: "",
-            descripcion: "",
-            empresa: ""
-          },
-          aplicacion: {
-              nombre: "",
-              descripcion: "",
-              estado: false
-          },
-          empresa: {
-              nombre_comercial: "",
-              razon_social: "",
-              ruc: "",
-              estado: false
+            _id: params.row.id_categoria,
+            nombre: params.row.categoria,
+            descripcion: '',
+            empresa: ''
           }
         }
           return <ProductDialog product={ dataProducto } newProduct={ false } />

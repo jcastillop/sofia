@@ -17,9 +17,6 @@ spaxionApi.interceptors.request.use(
     },
     (error) => {
       // Handle request errors her
-      console.log("error")
-      console.log(error)
-  
       return Promise.reject(error);
     }
 );
@@ -33,8 +30,7 @@ spaxionApi.interceptors.response.use(
     },
     (error) => {
         // Handle response errors here
-        console.log("response error", error)
-        console.log(JSON.stringify(error))
+        console.log("error", error)
         return Promise.reject(error);
     }
 );

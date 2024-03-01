@@ -5,9 +5,9 @@ import {Button, TextField, Dialog, DialogActions, DialogContent, DialogContentTe
 import { useForm } from 'react-hook-form';
 import CreateIcon from '@mui/icons-material/Create';
 
-import { IProducto } from '@/interfaces';
+import { ICategoria, IProducto } from '@/interfaces';
 import { UiContext } from '@/context';
-import { saveProduct, updateProduct } from '@/hooks';
+import { saveProduct, updateProduct, useCategorias } from '@/hooks';
 import { Constantes } from '@/helpers';
 import variables from '@/helpers/variables';
 import { getSession, useSession } from 'next-auth/react';
@@ -17,15 +17,18 @@ interface Props{
     newProduct : boolean;
 }
 
+// TODO: Validaciones del formulario
 export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
 
     const { showAlert } = useContext( UiContext );
+
+    const { categorias, isLoadingCategoria } = useCategorias();
     
     const { register, handleSubmit, setValue, getValues, formState: { errors } }  = useForm<IProducto>({
         defaultValues: {
-            uid: product?.uid,
+            _id: product?._id,
             nombre: product?.nombre,
-            categoria: product?.categoria,
+            categoria: (product?.categoria as ICategoria)._id,
             codigo: product?.codigo,
             codigo_sunat: product?.codigo_sunat,
             descuento: product?.descuento,
@@ -39,6 +42,7 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
     const onSubmitUser = async (storageProducto: IProducto) => {
         const session = await getSession();
         const { hasError, message, producto } = newProduct? await saveProduct(storageProducto): await updateProduct(storageProducto);
+        console.log(message)
         showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})  
         handleClose();
         window.location.href = "/products"
@@ -46,7 +50,7 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
 
     const [open, setOpen] = useState(false);
     
-    const handleClickOpen = async () => {    
+    const handleClickOpen = async () => {   
         setOpen(true);
     };
 
@@ -58,17 +62,6 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
         const newEfectivoValue = +event.target.value
         setValue("valor_unitario", +((newEfectivoValue/1.18).toFixed(2)), { shouldValidate: true });
     };      
-
-    // const isDecimalValid = () => {
-    //     const arr = getValues("valor").toString().split(".")
-    //     if(arr.length != 2) return true;
-    //     const decimales = arr[1].length
-    //     if(getValues("medida") == Constantes.GALONES){
-    //         return decimales == 10? true: `El cantidad de decimales es incorrecta para ${getValues("medida")}, la cantidad requerida es 10, vuelva a escribir el precio`
-    //     }else{
-    //         return decimales == 2? true: `El cantidad de decimales es incorrecta para ${getValues("medida")}, la cantidad requerida es 2, vuelva a escribir el precio`
-    //     }
-    // };
 
     return (
         <div>
@@ -86,7 +79,7 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
      
         <Dialog open={open} onClose={handleClose}>
             <form onSubmit={ handleSubmit( onSubmitUser ) }>
-            <DialogTitle>{`${ getValues("uid")?'Modificación':'Creación'} de productos`}</DialogTitle>
+            <DialogTitle>{`${ getValues("_id")?'Modificación':'Creación'} de productos`}</DialogTitle>
             <DialogContent>
                 <Grid container spacing={2} sx={{ mt: 1}}>
                     <Grid item xs={12} sm={6}>
@@ -119,15 +112,26 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                     </Grid> 
                     <Grid item xs={12} sm={6}>
                         <TextField 
+                            select
                             label={'Categoría'}
-                            variant='standard' 
+                            variant='standard'
                             fullWidth
-                            { ...register('categoria', {
-                            })}
+                            //defaultValue={ }
+                            { ...register('categoria')}
                             InputLabelProps={{ shrink: true }}
                             error={ !!errors.categoria }
                             helperText={ errors.categoria?.message }
-                        />
+                            defaultValue={ (product?.categoria as ICategoria)._id }
+                        >
+                            {
+                                isLoadingCategoria?<></>:
+                                categorias.map((categoria) => (
+                                    <MenuItem key={categoria._id} value={categoria._id}>
+                                    {categoria.nombre}
+                                    </MenuItem>
+                                ))
+                            }   
+                        </TextField>                        
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField 
