@@ -1,39 +1,52 @@
-'use client';
-import { spaxionApi } from "@/api";
-import { IProduct } from "@/interfaces";
+'use client'
+import { AxiosResponse } from "axios";
 import useSWR, { SWRConfiguration } from "swr"
+
+import { spaxionApi } from "@/api";
+import { IProducto } from "@/interfaces";
+import { Session } from "next-auth";
+import { ProductoStorage } from "@/class";
 
 
 interface Props {
-    products: IProduct[];
+    productos: IProducto[];
     total: number;
 }
 
-export const useProducts = ( config: SWRConfiguration = {} ) => {    
+export const useProducts = () => {   
 
-    const { data, error, isLoading } = useSWR<Props>(`${process.env.NEXT_PUBLIC_URL_RESTSERVER}/api/productos/`, config);
+    const fetcher = (urlFetcher: string) => spaxionApi.get(`${urlFetcher}`).then(res => res.data)
 
-    const products = data?.products || [];
+    const { data, error, isLoading } = useSWR<Props>(`/productos/listar`, fetcher);
+
+    const productos = data?.productos || [];
 
     return {
         hasErrorProduct: error,
         isLoadingProduct: isLoading,
-        products: products
+        products: productos
     }
 }
 
-export const saveProduct = async ( producto: IProduct) => {
+export const saveProduct = async (product: IProducto):Promise<{ hasError: boolean; message: string; producto: IProducto| null; }> => {
 
     try {
 
-        const { data } = await spaxionApi.put(`${process.env.NEXT_PUBLIC_URL_RESTSERVER}/api/productos/`, producto);
+        const { data: { messsage, hasError, producto }}: AxiosResponse<{messsage: string; hasError: boolean; producto: IProducto|null}> = await spaxionApi.post(`/productos`, new ProductoStorage(product));
 
-        return {
-            hasError: data.hasError,
-            producto: data.producto,
-            message: data.message
-        }        
-
+        if(producto){
+            return {
+                hasError: hasError,
+                producto: producto,
+                message: messsage
+            }    
+        }else{
+            return {
+                hasError: hasError,
+                producto: null,
+                message: messsage
+            } 
+        }
     } catch (error: any) {
         
         return {
@@ -46,7 +59,7 @@ export const saveProduct = async ( producto: IProduct) => {
 }
 
 
-export const updateProduct = async ( producto: IProduct):Promise<{ hasError: boolean; message: string; producto?: IProduct; }> => {
+export const updateProduct = async ( producto: IProducto):Promise<{ hasError: boolean; message: string; producto?: IProducto; }> => {
 
     try {
 

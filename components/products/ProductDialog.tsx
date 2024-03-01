@@ -5,13 +5,15 @@ import {Button, TextField, Dialog, DialogActions, DialogContent, DialogContentTe
 import { useForm } from 'react-hook-form';
 import CreateIcon from '@mui/icons-material/Create';
 
-import { IProduct } from '@/interfaces';
+import { IProducto } from '@/interfaces';
 import { UiContext } from '@/context';
 import { saveProduct, updateProduct } from '@/hooks';
 import { Constantes } from '@/helpers';
+import variables from '@/helpers/variables';
+import { getSession, useSession } from 'next-auth/react';
 
 interface Props{
-    product? : IProduct;
+    product? : IProducto;
     newProduct : boolean;
 }
 
@@ -19,22 +21,23 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
 
     const { showAlert } = useContext( UiContext );
     
-    const { register, handleSubmit, setValue, getValues, formState: { errors } }  = useForm<IProduct>({
+    const { register, handleSubmit, setValue, getValues, formState: { errors } }  = useForm<IProducto>({
         defaultValues: {
             uid: product?.uid,
-            name: product?.name,
-            category: product?.category,
-            code: product?.code,
-            sunat_code: product?.sunat_code,
-            discount: product?.discount,
-            description: product?.description,
-            unit_price: product?.unit_price,
-            unit_value: product?.unit_value,
-            unit_measure: product?.unit_measure,
+            nombre: product?.nombre,
+            categoria: product?.categoria,
+            codigo: product?.codigo,
+            codigo_sunat: product?.codigo_sunat,
+            descuento: product?.descuento,
+            descripcion: product?.descripcion,
+            precio_unitario: product?.precio_unitario,
+            valor_unitario: product?.valor_unitario,
+            unidad_medida: product?.unidad_medida,
         }
     });
 
-    const onSubmitUser = async (storageProducto: IProduct) => {
+    const onSubmitUser = async (storageProducto: IProducto) => {
+        const session = await getSession();
         const { hasError, message, producto } = newProduct? await saveProduct(storageProducto): await updateProduct(storageProducto);
         showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})  
         handleClose();
@@ -43,7 +46,7 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
 
     const [open, setOpen] = useState(false);
     
-    const handleClickOpen = () => {
+    const handleClickOpen = async () => {    
         setOpen(true);
     };
 
@@ -53,7 +56,7 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
 
     const handleEfectivoValueChange = (event: { target: { value: any; }; }) => {
         const newEfectivoValue = +event.target.value
-        setValue("unit_value", +((newEfectivoValue/1.18).toFixed(2)), { shouldValidate: true });
+        setValue("valor_unitario", +((newEfectivoValue/1.18).toFixed(2)), { shouldValidate: true });
     };      
 
     // const isDecimalValid = () => {
@@ -83,7 +86,7 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
      
         <Dialog open={open} onClose={handleClose}>
             <form onSubmit={ handleSubmit( onSubmitUser ) }>
-            <DialogTitle>{`${ getValues("uid")?'Creación':'Modificación'} de productos`}</DialogTitle>
+            <DialogTitle>{`${ getValues("uid")?'Modificación':'Creación'} de productos`}</DialogTitle>
             <DialogContent>
                 <Grid container spacing={2} sx={{ mt: 1}}>
                     <Grid item xs={12} sm={6}>
@@ -91,13 +94,13 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Nombre'}
                             variant='standard' 
                             fullWidth
-                            { ...register('name', {
+                            { ...register('nombre', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.name }
-                            helperText={ errors.name?.message }
+                            error={ !!errors.nombre }
+                            helperText={ errors.nombre?.message }
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -105,13 +108,13 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Descripcion'}
                             variant='standard' 
                             fullWidth
-                            { ...register('description', {
+                            { ...register('descripcion', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.description }
-                            helperText={ errors.description?.message }
+                            error={ !!errors.descripcion }
+                            helperText={ errors.descripcion?.message }
                         />
                     </Grid> 
                     <Grid item xs={12} sm={6}>
@@ -119,11 +122,11 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Categoría'}
                             variant='standard' 
                             fullWidth
-                            { ...register('category', {
+                            { ...register('categoria', {
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.category }
-                            helperText={ errors.category?.message }
+                            error={ !!errors.categoria }
+                            helperText={ errors.categoria?.message }
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -131,13 +134,13 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Codigo'}
                             variant='standard' 
                             fullWidth
-                            { ...register('code', {
+                            { ...register('codigo', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.code }
-                            helperText={ errors.code?.message }
+                            error={ !!errors.codigo }
+                            helperText={ errors.codigo?.message }
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -145,13 +148,13 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Sunat'}
                             variant='standard' 
                             fullWidth
-                            { ...register('sunat_code', {
+                            { ...register('codigo_sunat', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.sunat_code }
-                            helperText={ errors.code?.message }
+                            error={ !!errors.codigo_sunat }
+                            helperText={ errors.codigo_sunat?.message }
                         />
                     </Grid>                    
                     <Grid item xs={12} sm={3}>
@@ -159,13 +162,13 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Descuento'}
                             variant='standard' 
                             fullWidth
-                            { ...register('discount', {
+                            { ...register('descuento', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.discount }
-                            helperText={ errors.discount?.message }
+                            error={ !!errors.descuento }
+                            helperText={ errors.descuento?.message }
                         />
                     </Grid>
                     <Grid item xs={12} sm={3}>
@@ -173,41 +176,27 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Unidad medida'}
                             variant='standard' 
                             fullWidth
-                            { ...register('unit_measure', {
+                            { ...register('unidad_medida', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.unit_measure }
-                            helperText={ errors.unit_measure?.message }
+                            error={ !!errors.unidad_medida }
+                            helperText={ errors.unidad_medida?.message }
                         />
-                    </Grid>                       
-                    <Grid item xs={12} sm={6}>
-                        <TextField 
-                            label={'Descripción'}
-                            variant='standard' 
-                            fullWidth
-                            { ...register('description', {
-                                required: 'Este campo es requerido'
-                                
-                            })}
-                            InputLabelProps={{ shrink: true }}
-                            error={ !!errors.description }
-                            helperText={ errors.description?.message }
-                        />
-                    </Grid>                      
+                    </Grid>                                           
                     <Grid item xs={12} sm={6}>
                         <TextField 
                             label={'Precio unitario'}
                             variant='standard' 
                             fullWidth
-                            { ...register('unit_price', {
+                            { ...register('precio_unitario', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.unit_price }
-                            helperText={ errors.unit_price?.message }
+                            error={ !!errors.precio_unitario }
+                            helperText={ errors.precio_unitario?.message }
                             onChange={handleEfectivoValueChange}
                         />
                     </Grid>  
@@ -216,13 +205,13 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             label={'Valor unitario'}
                             variant='standard' 
                             fullWidth
-                            { ...register('unit_value', {
+                            { ...register('valor_unitario', {
                                 required: 'Este campo es requerido'
                                 
                             })}
                             InputLabelProps={{ shrink: true }}
-                            error={ !!errors.unit_value }
-                            helperText={ errors.unit_value?.message }
+                            error={ !!errors.valor_unitario }
+                            helperText={ errors.valor_unitario?.message }
                             disabled
                         />
                     </Grid>                                                                                                                        

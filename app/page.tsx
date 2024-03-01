@@ -8,8 +8,6 @@ import { initialData } from "@/data/seed-data";
 import { ModalNewOrder, OrderList } from "@/components/orders";
 
 export default function Home() {
-  // const { data: session } = useSession()
-  // console.log(session)
   // if (!session) {
   //       redirect('/auth')
   // }    

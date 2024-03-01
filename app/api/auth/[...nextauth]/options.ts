@@ -1,8 +1,6 @@
-import type { NextAuthOptions } from 'next-auth'
-import GitHubProvider from 'next-auth/providers/github'
+import type { Aplicacion, Empresa, NextAuthOptions, Rol } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import NextAuth from 'next-auth'
-import { spaxionApi } from '@/api'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -21,25 +19,52 @@ export const options: NextAuthOptions = {
                 }
             },
             async authorize(credentials) {
-                console.log("autorizando")
-                console.log(credentials)
+
                 const body = {
                     "user": credentials?.username,
-                    "password": Buffer.from(credentials!.password, 'binary').toString('base64')
-                  }                
-                const { data } = await spaxionApi.post(`${process.env.NEXT_PUBLIC_URL_RESTSERVER}/api/usuarios/login`, body);
-                // This is where you need to retrieve user data 
-                // to verify with credentials
-                // Docs: https://next-auth.js.org/configuration/providers/credentials
-                const user = { id: "42", name: "Dave", password: "nextauth" }
-                // return user
-                if (credentials?.username === user.name && credentials?.password === user.password) {
-                    console.log("autorizadisimo")
-                    return user
-                } else {
-                    console.log("cago")
-                    return null
-                }
+                    "password": credentials!.password
+                }      
+
+                const res = await fetch(`${process.env.NEXT_PUBLIC_URL_RESTSERVER}/api/auth/login` , {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    headers: { "Content-Type": "application/json" }
+                })
+
+                const { usuario: { uid, usuario, nombre, correo, rol, aplicacion, empresa, estado }, token } = await res.json()
+
+                if(usuario){
+                    return {
+                        id:         uid,
+                        usuario:    usuario,
+                        nombre:     nombre,
+                        correo:     correo,
+                        estado:     estado,
+                        token:       token,
+                        rol:        {
+                            _id:            rol._id,
+                            nombre:         rol.nombre,
+                            descripcion:    rol.descripcion,
+                            estado:         rol.estado,
+                        },
+                        aplicacion:        {
+                            _id:            aplicacion._id,
+                            nombre:         aplicacion.nombre,
+                            descripcion:    aplicacion.descripcion,
+                            estado:         aplicacion.estado,
+                        },
+                        empresa:        {
+                            _id:                empresa._id,
+                            nombre_comercial:   empresa.nombre_comercial,
+                            razon_social:       empresa.razon_social,
+                            ruc:                empresa.ruc,
+                            estado:             empresa.estado,
+                        }                                                
+                    }
+                }else{
+                    return null;
+                    //throw new Error( JSON.stringify({ errors: data, status: false }))
+                  }
             }
         })
     ], 
@@ -51,10 +76,39 @@ export const options: NextAuthOptions = {
         // secret: process.env.JWT_SECRET_SEED, // deprecated
     },
     session: {
-    maxAge: 2592000,//30d
-    strategy: 'jwt',
-    updateAge: 86400//cada dia
-    }    
+        maxAge: 2592000,//30d
+        strategy: 'jwt',
+        updateAge: 86400//cada dia
+    },
+    callbacks: {
+        async session({ session, token, user }) {
+            session.user.id = String(token.id)
+            session.user.usuario = String(token.usuario)
+            session.user.nombre = String(token.nombre)
+            session.user.correo = String(token.correo)
+            session.user.estado = Boolean(token.estado)
+            session.user.rol = token.rol as Rol
+            session.user.aplicacion = token.aplicacion as Aplicacion
+            session.user.empresa = token.empresa as Empresa
+            session.user.token = String(token.token)
+            return session 
+        },
+        async jwt({ token, account, user }) {
+            if ( account ) {
+              token.id = user.id;
+              token.usuario = user.usuario;
+              token.nombre = user.nombre;
+              token.correo = user.correo;
+              token.estado = user.estado;
+              token.token = user.token;
+              token.rol = user.rol;
+              token.aplicacion = user.aplicacion;
+              token.empresa = user.empresa;
+            }
+            return token;
+          },        
+    }
+    
 }
 
 export default NextAuth(options)

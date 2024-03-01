@@ -1,11 +1,12 @@
+import { IRol, IEmpresa } from ".";
+import { IAplicacion } from "./aplicacion";
 
 export interface IUser {
-    uid      : string;
-    name     : string;
-    email    : string;
-    password?: string;
-    role     : string;
-
-    createdAt?: string;
-    updatedAt?: string;
+    _id: string;
+    usuario: string;
+    nombre: string;
+    correo: string;        
+    rol: IRol;
+    aplicacion: IAplicacion;
+    empresa: IEmpresa;
 }
