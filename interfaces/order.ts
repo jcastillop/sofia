@@ -3,40 +3,47 @@ import { IClient } from "./client";
 
 export interface IOrder {
 
-    uid? : string;
-    client?: IClient;
-    orderItems: IOrderItem[];
-    shippingAddress?: ShippingAddress;
+    _id?        : string;
+    codigo      : string;
+    fecha       : Date;
+    subTotal    : number;
+    igv         : number;
+    total       : number;
+    comentario  : string;
+    isPaid      : boolean;
+    numeroitems : number;
+    orderitems  : IOrderItem[];
+    estado?     : boolean;
+
+    cliente?     : IClient;
+    usuario?       : IUser;
+
+    createdAt?  : string;
+    updatedAt?  : string;
     
-    numberOfItems: number;
-    subTotal     : number;
-    tax          : number;
-    total        : number;
-
-    isPaid  : boolean;
-    placa : string;
-
-    user?: IUser;
-    createdAt?: string;
-    updatedAt?: string;
-    state:number;
 }
 
 export interface IOrderItem {
-    uid?: string;
-    name: string;
-    category: string;
-    code: string;
-    sunat_code: string;
-    discount: number;
-    description: string;
-    unit_price: number;
-    unit_value: number;
-    unit_measure: string;
-    tot_price: number;
-    tot_value: number;
-    total: number;
-    quantity: number;
+    _id?: string;
+
+    nombre: string;
+    categoria: string;
+    codigo: string;
+    codigo_sunat: string;
+    cantidad: number;
+    descripcion: string;
+    precio_unitario: number;
+    valor_unitario: number;
+    unidad_medida: string;
+    precio_total: number;
+    valor_total: number;
+    igv: number;
+    igv_total: number;
+    descuento: number;
+    producto?: string;
+    fecha?: Date;
+    fecha_actualizacion?: Date;
+    estado?: boolean;
 
     createdAt?: string;
     updatedAt?: string;    

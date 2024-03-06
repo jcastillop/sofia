@@ -7,10 +7,11 @@ import CreateIcon from '@mui/icons-material/Create';
 
 import { ICategoria, IProducto } from '@/interfaces';
 import { UiContext } from '@/context';
-import { saveProduct, updateProduct, useCategorias } from '@/hooks';
+import { saveProduct, updateProduct, useCategorias, useProducts } from '@/hooks';
 import { Constantes } from '@/helpers';
 import variables from '@/helpers/variables';
 import { getSession, useSession } from 'next-auth/react';
+import { mutate } from 'swr';
 
 interface Props{
     product? : IProducto;
@@ -23,6 +24,8 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
     const { showAlert } = useContext( UiContext );
 
     const { categorias, isLoadingCategoria } = useCategorias();
+
+    const { mutate } = useProducts();
     
     const { register, handleSubmit, setValue, getValues, formState: { errors } }  = useForm<IProducto>({
         defaultValues: {
@@ -42,10 +45,10 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
     const onSubmitUser = async (storageProducto: IProducto) => {
         const session = await getSession();
         const { hasError, message, producto } = newProduct? await saveProduct(storageProducto): await updateProduct(storageProducto);
-        console.log(message)
+        mutate();
         showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})  
         handleClose();
-        window.location.href = "/products"
+        //window.location.href = "/products"
     }
 
     const [open, setOpen] = useState(false);

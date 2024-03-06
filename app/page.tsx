@@ -2,12 +2,15 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import { redirect } from "next/navigation";
 
-import { MainLayout } from '@/components';
+import { FullScreenLoading, MainLayout } from '@/components';
 import { Typography } from "@mui/material";
 import { initialData } from "@/data/seed-data";
 import { ModalNewOrder, OrderList } from "@/components/orders";
+import { useOrders } from "@/hooks";
 
 export default function Home() {
+
+  const { ordenes, isLoading, error  } = useOrders();
   // if (!session) {
   //       redirect('/auth')
   // }    
@@ -22,7 +25,12 @@ export default function Home() {
         <Typography variant='h1' component='h1'>Órdenes</Typography>
         <Typography variant='h2' sx={{ mb: '10px' }}>Listado de unidades en servicio</Typography>
         <ModalNewOrder/>
-        <OrderList orders={ initialData.orders }/>
+        {
+              isLoading
+              ? <FullScreenLoading/>
+              : <OrderList orders={ ordenes }/>
+        }        
+        
     </MainLayout>
   )
 }

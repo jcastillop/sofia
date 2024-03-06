@@ -1,30 +1,38 @@
 "use client"
-import { FC, useRef, useState } from "react";
+import { FC, useContext, useRef, useState } from "react";
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Grid, Typography } from "@mui/material";
-import { IOrder, IOrderItem } from "@/interfaces";
-import { initialData } from "@/data/seed-data";
+import { IOrder } from "@/interfaces";
+import { saveOrder } from "@/hooks";
+import { UiContext } from "@/context";
+
 
 export const ModalNewOrder: FC = () => {
     const inputRef  = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [placa, setPlaca] = useState("")
+    const { showAlert } = useContext( UiContext );
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
-    const handleAddService = ( value:string ) => {
+    const handleAddService = async( value:string ) => {
         const orderService: IOrder = {
-            orderItems: [],
-            placa: placa + "-" + value,
-            numberOfItems: 0,
+            codigo: placa + "-" + value,
+            fecha: new Date(),
             subTotal: 0,
-            tax: 0,
+            igv: 0,
             total: 0,
+            comentario: '',
             isPaid: false,
-            state: 0
+            numeroitems: 0,
+            orderitems: []
         }
+        const { hasError, message, orden } = await saveOrder(orderService)
+
+        showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})  
+        handleClose();
         setOpen(false);
     }
     

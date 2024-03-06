@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NextPage } from 'next';
 import { Grid, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -63,7 +63,7 @@ const ProductPage: NextPage = () => {
             empresa: ''
           }
         }
-          return <ProductDialog product={ dataProducto } newProduct={ false } />
+          return <ProductDialog product={ dataProducto } newProduct={ false }/>
       }, width: 150
 
   },      

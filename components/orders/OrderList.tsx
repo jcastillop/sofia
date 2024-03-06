@@ -14,7 +14,7 @@ export const OrderList: FC<Props> = ({ orders }) => {
         {
             orders.map( order => (
                 <OrderCard 
-                    key={ order.uid }
+                    key={ order._id }
                     order={ order }
                 />
             ))

@@ -5,7 +5,7 @@ import { ICartProduct, IOrder, IOrderItem, ShippingAddress } from '../../interfa
 
 interface ContextProps {
     isLoaded        : boolean;
-    placa           : string;
+    codigo          : string;
     numberOfItems   : number;
     subTotal        : number;
     tax             : number;

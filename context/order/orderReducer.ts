@@ -17,34 +17,11 @@ type CartActionType =
          total: number;
       }
    }   
-   // | { type: '[Order] - LoadCart from cookies | storage', payload: ICartProduct[] } 
-   // | { type: '[Order] - Update products in cart', payload: ICartProduct[] }
-   // | { type: '[Order] - Change cart quantity', payload: ICartProduct }
-   // | { type: '[Order] - Remove product in cart', payload: ICartProduct }
-   // | { type: '[Order] - LoadAddress from Cookies', payload: ShippingAddress }
-   // | { type: '[Order] - Update Address', payload: ShippingAddress }
-   // | { 
-   //    type: '[Order] - Update order summary', 
-   //    payload: {
-   //       numberOfItems: number;
-   //       subTotal: number;
-   //       tax: number;
-   //       total: number;
-   //    }
-   // }
-   // | { type: '[Order] - Order complete' }
+
 
 export const orderReducer = ( state: OrderState, action: CartActionType ): OrderState => {
 
    switch (action.type) {
-      // case '[Order] - LoadCart from cookies | storage':
-      //    return {
-      //       ...state,
-      //       isLoaded: true,
-      //       order: [...action.payload]
-      //     }
-
-
       case '[Order] - Update items in order':
          return {
             ...state,
@@ -55,23 +32,27 @@ export const orderReducer = ( state: OrderState, action: CartActionType ): Order
          return {
             ...state,
             orderItems: state.orderItems.map( item => {
-               if ( item.uid !== action.payload.uid ) return item;
+               if ( item._id !== action.payload._id ) return item;
                return action.payload;
             })
          }
 
       case '[Order] - Set order':
          //return { ...action.payload, isLoaded: state.isLoaded };
+         // const order =  { ...action.payload } 
+         // const orderitem: IOrderItem[] = []
+         // order.orderitems = order.orderitems?order.orderitems:orderitem
+         state.isLoaded = true
          return { 
-            isLoaded: true, 
-            ...action.payload 
+            ...state,
+            ...action.payload
          };
 
       case '[Order] - Clean order':
          return {
             ...state,
             isLoaded: false,
-            placa: "",
+            codigo: "",
             numberOfItems: 0,
             subTotal: 0,
             tax: 0,

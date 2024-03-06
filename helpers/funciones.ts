@@ -1,3 +1,3 @@
 export const formatDecimals = (num: number) => {
-   return +((Math.round(num * 100) / 100).toFixed(2))
+   return +((Math.round(num * 10) / 10).toFixed(2))
 }

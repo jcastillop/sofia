@@ -146,11 +146,11 @@ export var initialData: SeedData= {
     ],
     orders: [
         {
-            uid: 'OR001',
+            _id: 'OR001',
             numberOfItems: 3,
             subTotal: 123,
             tax: 321,
-            placa:'B9S-432',
+            codigo:'B9S-432',
             client: {
                 id_receptor: 1,
                 tipo_documento: 3,
@@ -165,7 +165,7 @@ export var initialData: SeedData= {
             state: 0,
             orderItems: [
                 {
-                    uid: '1',
+                    _id: '1',
                     name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
@@ -181,7 +181,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: '2',
+                    _id: '2',
                     name: "Aromatizador para vehiculo 2",
                     category: "product",
                     code: "123",
@@ -197,7 +197,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: '3',
+                    _id: '3',
                     name: "Liquido refrigerante",
                     category: "product",
                     code: "123",
@@ -215,11 +215,11 @@ export var initialData: SeedData= {
             ]
         },
         {
-            uid: 'OR002',
+            _id: 'OR002',
             numberOfItems: 3,
             subTotal: 123,
             tax: 321,
-            placa:'D6T-565',
+            codigo:'D6T-565',
             client: {
                 id_receptor: 2,
                 tipo_documento: 3,
@@ -234,7 +234,7 @@ export var initialData: SeedData= {
             state: 0,
             orderItems: [
                 {
-                    uid: "1",
+                    _id: "1",
                     name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
@@ -250,7 +250,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: "7",
+                    _id: "7",
                     name: "Cambio de aceite",
                     category: "service",
                     code: "123",
@@ -268,11 +268,11 @@ export var initialData: SeedData= {
             ]
         },
         {
-            uid: 'OR003',
+            _id: 'OR003',
             numberOfItems: 3,
             subTotal: 123,
             tax: 321,
-            placa:'D6T-565',
+            codigo:'D6T-565',
             client: {
                 id_receptor: 2,
                 tipo_documento: 3,
@@ -287,7 +287,7 @@ export var initialData: SeedData= {
             state: 0,
             orderItems: [
                 {
-                    uid: "1",
+                    _id: "1",
                     name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
@@ -303,7 +303,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: "7",
+                    _id: "7",
                     name: "Cambio de aceite",
                     category: "service",
                     code: "123",
@@ -321,11 +321,11 @@ export var initialData: SeedData= {
             ]
         },
         {
-            uid: 'OR004',
+            _id: 'OR004',
             numberOfItems: 3,
             subTotal: 123,
             tax: 321,
-            placa:'D6T-565',
+            codigo:'D6T-565',
             client: {
                 id_receptor: 2,
                 tipo_documento: 3,
@@ -340,7 +340,7 @@ export var initialData: SeedData= {
             state: 0,
             orderItems: [
                 {
-                    uid: "1",
+                    _id: "1",
                     name: "Servicio de lavado de carros 1",
                     category: "service",
                     code: "123",
@@ -356,7 +356,7 @@ export var initialData: SeedData= {
                     total: 123
                 },
                 {
-                    uid: "7",
+                    _id: "7",
                     name: "Cambio de aceite",
                     category: "service",
                     code: "123",

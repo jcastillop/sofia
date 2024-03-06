@@ -17,14 +17,15 @@ export const useProducts = () => {
 
     const fetcher = (urlFetcher: string) => spaxionApi.get(`${urlFetcher}`).then(res => res.data)
 
-    const { data, error, isLoading } = useSWR<Props>(`/productos/listar`, fetcher);
+    const { data, error, isLoading, mutate } = useSWR<Props>(`/productos/listar`, fetcher);
 
     const productos = data?.productos || [];
 
     return {
         hasErrorProduct: error,
         isLoadingProduct: isLoading,
-        products: productos
+        products: productos,
+        mutate
     }
 }
 

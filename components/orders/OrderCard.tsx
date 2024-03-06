@@ -4,6 +4,7 @@ import { Grid, Card, CardHeader, IconButton, Badge, CardContent, Typography, Car
 import { DryCleaningOutlined, CardTravelOutlined } from '@mui/icons-material';
 import { IOrder } from "@/interfaces";
 import { OrderContext } from "@/context";
+import { getTimeFormat } from "@/helpers";
 
 interface Props {
     order: IOrder;
@@ -16,48 +17,60 @@ export const OrderCard: FC<Props> = ({ order }) => {
     return (
         <Grid item 
             xs={6} 
-            sm={ 4 }
+            sm={ 3 }
         >
-
-            <NextLink 
-                href={`/order/${order.uid}`} 
-                aria-disabled={true}
-                passHref 
-                prefetch={false} 
-                legacyBehavior>
-                <Link
-                    onClick={ () => setOrder( order ) }
-                >
-                    <Card sx={{ maxWidth: 345 }}>
-                        <CardContent>             
-                            <Typography gutterBottom variant="h4" component="div">{ order.placa }</Typography>
-                            <Box sx={{ mt:2 }}>
-                                <Stack direction="row" alignItems="center" gap={1} sx={{mt:1}}>
-                                    <DryCleaningOutlined />
-                                    <Typography variant="body1">Servicios</Typography>
-                                </Stack>
-                                {
-                                    order.orderItems.filter(item=>item.category=="service").map(item=>(
-                                        <Typography key={item.uid} variant="body1">{item.name}</Typography>
-                                    ))
-                                }
-                            </Box>
-                            <Box sx={{ mt:2 }}>
-                                <Stack direction="row" alignItems="center" gap={1} sx={{mt:1}}>
-                                    <CardTravelOutlined />
-                                    <Typography variant="body1">Productos</Typography>
-                                </Stack>
-                                {
-                                    order.orderItems.filter(item=>item.category=="product").map(item=>(
-                                        <Typography key={item.uid} variant="body1">{item.name}</Typography>
-                                    ))
-                                }
-                            </Box>
-                        </CardContent>
-                    </Card>                
-                </Link>
-            </NextLink>
-
-      </Grid>
+            <Card style={{
+            padding: '30px 20px',
+            borderTop:'3px solid #F6F6F6'
+            }}>
+                <NextLink 
+                    href={`/order/${order._id}`} 
+                    aria-disabled={true}
+                    passHref 
+                    prefetch={false} 
+                    legacyBehavior>
+                    <Link
+                        onClick={ () => setOrder( order ) }
+                    >
+                        <div style={{
+                            position:'relative'
+                        }}>                    
+                            <div style={{
+                            //height: '156px',
+                            height: '160px',
+                            width: '160px',
+                            backgroundColor: 'green',
+                            zIndex:1,
+                            position:'absolute',
+                            top: '-130px',
+                            right: '-130px',
+                            borderRadius: '50%',
+                            WebkitTransition:'all .5s ease',
+                            transition:'all .5s ease'
+                            }}>
+                                <Typography fontWeight={700} style={{color:"#ffff", position:'relative',bottom: '-100px',left: '13px'}}>{ getTimeFormat(order.fecha) }</Typography>
+                            </div>                    
+                            <Box sx={{mt: 1}} className='fadeIn'>  
+                                <Typography gutterBottom variant="h4" component="div">{ order.codigo.toUpperCase() }</Typography>
+                                <Box sx={{ mt:2 }}>
+                                    <Stack direction="row" alignItems="center" gap={1} sx={{mt:1}}>
+                                        <DryCleaningOutlined />
+                                        <Typography variant="body1">Servicios</Typography>
+                                    </Stack>
+                                    <Typography variant="body1">{order.orderitems.filter(item=>item.categoria=="service").map( item=>item.nombre).toString()}</Typography>
+                                </Box>
+                                <Box sx={{ mt:2 }}>
+                                    <Stack direction="row" alignItems="center" gap={1} sx={{mt:1}}>
+                                        <CardTravelOutlined />
+                                        <Typography variant="body1">Productos</Typography>
+                                    </Stack>
+                                    <Typography variant="body1">{order.orderitems.filter(item=>item.categoria=="product").map( item=>item.nombre).toString()}</Typography>
+                                </Box>
+                            </Box>  
+                        </div>           
+                    </Link>
+                </NextLink>
+            </Card>
+        </Grid>
     )
 }

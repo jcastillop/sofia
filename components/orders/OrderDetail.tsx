@@ -1,12 +1,14 @@
 "use client"
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { Box, Button, Card, CardContent, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { AddCircle, CardTravelOutlined, Delete, DryCleaningOutlined } from '@mui/icons-material';
 
 import { OrderContext } from '@/context/order';
-import { ItemCounter } from '../ui';
+import { FullScreenLoading, ItemCounter } from '../ui';
 import { IOrder, IOrderItem } from '@/interfaces';
 import { ModalNewOrderItem } from '..';
+import { deleteOrderItem, updateOrderItem, useOrder } from '@/hooks';
+import { UiContext } from '@/context';
 
 
 interface Props {
@@ -14,44 +16,37 @@ interface Props {
     order: IOrder;
 }
 
-export const OrderDetail: FC<Props> = ({ editable = false }) => {
+export const OrderDetail: FC<Props> = ({ editable = false, order:{ _id = "", codigo = "", orderitems = [] } }) => {
 
-    const { placa, orderItems, updateOrderItemQuantity } = useContext(OrderContext);
+    const { mutate } = useOrder(_id)
+    const { showAlert } = useContext( UiContext );
+    const [loading, setLoading] = useState(false)
 
-    const onNewCartQuantityValue = (item: IOrderItem, newQuantityValue: number) => {
-        updateOrderItemQuantity( item, newQuantityValue );
+    const onNewCartQuantityValue = async (item: IOrderItem, newQuantityValue: number) => {
+        const item_id = item._id?item._id:""
+        const { hasError, message } = await updateOrderItem(_id, item_id, newQuantityValue)
+        showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})  
+        mutate();
     }
+    
     const removeOrderItem = (item: IOrderItem) => {
-
+        const item_id = item._id?item._id:""
+        deleteOrderItem(_id , item_id)
+        mutate();
     }    
-    const newOrderItem = (type: string) => {
-
-    }  
-
-    // const { totService } = orderItems.filter((item)=>(item.category == "service")).map((item)=>({totService: +item.tot_price}))
-    // .reduce((a,b)=>{
-    //     return({
-    //         totService: a.totService + b.totService || 0,
-    //     })},{totService: 0})
-
-    // const { totProduct } = orderItems.filter((item)=>(item.category == "product")).map((item)=>({totProduct: +item.tot_price}))
-    // .reduce((a,b)=>{
-    //     return({
-    //         totProduct: a.totProduct + b.totProduct || 0,
-    //     })},{totProduct: 0})                                    
 
     return (
         <Box>
             <Card className='summary-card'>
                 <CardContent>
-                    <Typography variant='h2'>{ `PLACA: ${placa}`}</Typography>
+                    <Typography variant='h2'>{ `PLACA: ${codigo.toUpperCase()}`}</Typography>
                     <Divider sx={{ my:2 }} />
                     <Grid container sx={{ mt:2 }}>
                         <Grid item xs={8}>
                             <Stack direction="row" alignItems="center" gap={1}>
                                 {
                                     editable?
-                                    <ModalNewOrderItem category='service' orderitems={ orderItems }/>:<DryCleaningOutlined/>
+                                    <ModalNewOrderItem category='service' orderItems={orderitems} order={_id}/>:<DryCleaningOutlined/>
                                 }
                                 <Typography variant='h6'>Servicios</Typography>
                             </Stack>
@@ -65,8 +60,8 @@ export const OrderDetail: FC<Props> = ({ editable = false }) => {
                         <Grid item xs={2} display='flex' justifyContent='center'>
                         </Grid>                        
                         {
-                            orderItems.filter(item=>item.category=="service").map(item=>(
-                                <Grid container key={item.uid}>
+                            orderitems.filter(item=>item.categoria=="service").map(item=>(
+                                <Grid container key={item._id}>
                                     <Grid item xs={8} display='flex' alignItems='center'>
                                         {
                                             editable?
@@ -74,20 +69,23 @@ export const OrderDetail: FC<Props> = ({ editable = false }) => {
                                                 <Delete />
                                             </IconButton>:<></>
                                         }                                        
-                                        <Typography variant="body1">{item.name}</Typography>
+                                        <Typography variant="body1">{item.nombre}</Typography>
                                     </Grid>
                                     <Grid item xs={2} display='flex' justifyContent='center'>
                                         {
-                                            editable?
-                                            <ItemCounter 
-                                                currentValue={ item.quantity }
+                                            loading
+                                            ? <FullScreenLoading/>
+                                            : editable
+                                            ? <ItemCounter 
+                                                currentValue={ item.cantidad }
                                                 maxValue={ 99 } 
                                                 updatedQuantity={ ( value ) => onNewCartQuantityValue(item, value )}
-                                            />:<Typography>{item.quantity}</Typography>
+                                            />
+                                            : <Typography>{item.cantidad}</Typography>
                                         }
                                     </Grid>
                                     <Grid item xs={2} display='flex' justifyContent='end' alignItems='center'>
-                                        <Typography>S/ {item.tot_price.toFixed(2)}</Typography>
+                                        <Typography>S/ {item.precio_total.toFixed(2)}</Typography>
                                     </Grid>                                                  
                                 </Grid>
                             ))
@@ -99,7 +97,7 @@ export const OrderDetail: FC<Props> = ({ editable = false }) => {
                             <Stack direction="row" alignItems="center" gap={1}>           
                                 {
                                     editable?
-                                    <ModalNewOrderItem category='product' orderitems={ orderItems }/>:<CardTravelOutlined/>
+                                    <ModalNewOrderItem category='product' orderItems={orderitems} order={_id}/>:<CardTravelOutlined/>
                                 }
                                 <Typography variant='h6'>Productos</Typography>
                                 {/* <Typography variant="caption" display="block" sx={{ color:'green', fontWeight:'bold' }} gutterBottom>
@@ -116,8 +114,8 @@ export const OrderDetail: FC<Props> = ({ editable = false }) => {
                         <Grid item xs={2} display='flex' justifyContent='end'>
                         </Grid>                        
                         {
-                            orderItems.filter(item=>item.category=="product").map(item=>(
-                                <Grid container key={item.uid}>
+                            orderitems.filter(item=>item.categoria=="product").map(item=>(
+                                <Grid container key={item._id}>
                                     <Grid item xs={8} display='flex' alignItems='center'>
                                         {
                                             editable?
@@ -125,20 +123,20 @@ export const OrderDetail: FC<Props> = ({ editable = false }) => {
                                                 <Delete />
                                             </IconButton>:<></>
                                         }
-                                        <Typography variant="body1">{item.name}</Typography>
+                                        <Typography variant="body1">{item.nombre}</Typography>
                                     </Grid>
                                     <Grid item xs={2} display='flex' justifyContent='center'>
                                         {
                                             editable?
                                             <ItemCounter 
-                                                currentValue={ item.quantity }
+                                                currentValue={ item.cantidad }
                                                 maxValue={ 99 } 
                                                 updatedQuantity={ ( value ) => onNewCartQuantityValue(item, value )}
-                                            />:<Typography>{item.quantity}</Typography>
+                                            />:<Typography>{item.cantidad}</Typography>
                                         }
                                     </Grid>                                    
                                     <Grid item xs={2} display='flex' justifyContent='end' alignItems='center'>
-                                        <Typography>S/ {item.tot_price.toFixed(2)}</Typography>
+                                        <Typography>S/ {item.precio_total.toFixed(2)}</Typography>
                                     </Grid>                                    
                                 </Grid>
                             ))

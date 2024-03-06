@@ -6,16 +6,19 @@ import { initialData } from "@/data/seed-data";
 import { AddCircle } from "@mui/icons-material";
 import { OrderList } from ".";
 import { ProductList } from "../products/ProductList";
+import { useProducts } from "@/hooks";
 
 interface Props {
     category: ICategory;
-    orderitems?: IOrderItem[]
+    order: string;
+    orderItems: IOrderItem[];
 }
 
-export const ModalNewOrderItem: FC<Props> = ({ category, orderitems }) => {
+export const ModalNewOrderItem: FC<Props> = ({ category, order, orderItems }) => {
     const inputRef  = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [placa, setPlaca] = useState("")
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -25,18 +28,17 @@ export const ModalNewOrderItem: FC<Props> = ({ category, orderitems }) => {
     const handleAddService = ( value:string ) => {
         console.log(placa + "-" + value)
         const orserService: IOrder = {
-            orderItems: [],
-            placa: placa + "-" + value,
-            numberOfItems: 0,
+            codigo: placa + "-" + value,
+            fecha: new Date(),
             subTotal: 0,
-            tax: 0,
+            igv: 0,
             total: 0,
+            comentario: '',
             isPaid: false,
-            state: 0
+            numeroitems: 0,
+            orderitems: []
         }
-        setOpen(false);
     }
-    
     return(
         <>
             <IconButton sx={{ color:'green'}} onClick={ handleClickOpen }>
@@ -50,7 +52,7 @@ export const ModalNewOrderItem: FC<Props> = ({ category, orderitems }) => {
             >
                 <DialogTitle>Productos/Servicios</DialogTitle>
                 <DialogContent sx={{display: "flex", justifyContent:"center", alignItems:"center"}}>
-                    <ProductList products={ initialData.products } category={category} orderitems={orderitems}/>
+                    <ProductList category={category} order={order} orderItems={orderItems}/>
                 </DialogContent>
             </Dialog>              
         </>
