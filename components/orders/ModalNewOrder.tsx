@@ -1,9 +1,11 @@
 "use client"
 import { FC, useContext, useRef, useState } from "react";
+import { getSession, useSession } from "next-auth/react";
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Grid, Typography } from "@mui/material";
-import { IOrder } from "@/interfaces";
-import { saveOrder } from "@/hooks";
+
 import { UiContext } from "@/context";
+import { saveOrder } from "@/hooks";
+import { IOrder } from "@/interfaces";
 
 
 export const ModalNewOrder: FC = () => {
@@ -18,6 +20,8 @@ export const ModalNewOrder: FC = () => {
         setOpen(false);
     };
     const handleAddService = async( value:string ) => {
+        const session = await getSession()
+        console.log(session)
         const orderService: IOrder = {
             codigo: placa + "-" + value,
             fecha: new Date(),
@@ -27,7 +31,8 @@ export const ModalNewOrder: FC = () => {
             comentario: '',
             isPaid: false,
             numeroitems: 0,
-            orderitems: []
+            orderitems: [],
+            usuario: session?.user.id||""
         }
         const { hasError, message, orden } = await saveOrder(orderService)
 

@@ -27,8 +27,8 @@ export const ProductCard: FC<Props> = ({ product, orderId }) => {
             unidad_medida: product.unidad_medida,
             precio_total: product.precio_unitario,
             valor_total: product.valor_unitario,
-            igv: product.valor_unitario * Number(process.env.NEXT_PUBLIC_TAX_RATE),
-            igv_total: product.valor_unitario * Number(process.env.NEXT_PUBLIC_TAX_RATE),
+            igv: (product.valor_unitario * Number(process.env.NEXT_PUBLIC_TAX_RATE)),
+            igv_total: (product.valor_unitario * Number(process.env.NEXT_PUBLIC_TAX_RATE)),
             cantidad: 1
         }
 

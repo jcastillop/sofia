@@ -31,11 +31,11 @@ export const options: NextAuthOptions = {
                     headers: { "Content-Type": "application/json" }
                 })
 
-                const { usuario: { uid, usuario, nombre, correo, rol, aplicacion, empresa, estado }, token } = await res.json()
+                const { usuario: { _id, usuario, nombre, correo, rol, aplicacion, empresa, estado }, token } = await res.json()
 
                 if(usuario){
                     return {
-                        id:         uid,
+                        id:         _id,
                         usuario:    usuario,
                         nombre:     nombre,
                         correo:     correo,

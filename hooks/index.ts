@@ -1,3 +1,5 @@
 export * from './useCategorias'
+export * from './useComprobantes'
 export * from './useOrdenes'
 export * from './useProductos'
+export * from './useUSuarios'

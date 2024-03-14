@@ -44,6 +44,8 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
 
     const onSubmitUser = async (storageProducto: IProducto) => {
         const session = await getSession();
+        storageProducto.precio_unitario.format()
+        storageProducto.valor_unitario.format()
         const { hasError, message, producto } = newProduct? await saveProduct(storageProducto): await updateProduct(storageProducto);
         mutate();
         showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})  

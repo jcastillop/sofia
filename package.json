@@ -20,6 +20,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
+    "react-qr-code": "^2.0.12",
+    "react-to-print": "^2.15.1",
     "swr": "^2.2.5"
   },
   "devDependencies": {

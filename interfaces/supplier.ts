@@ -1,8 +1,9 @@
 export interface ISupplier {
-    uid: string;
-    tipo_documento: number;
-    numero_documento: string;
+    _id: string;
+    nombre_comercial: string;
     razon_social: string;
+    ruc: string;
+    ubigeo: string;
     direccion: string;
-    correo: string;
+    estado?: boolean;
 }

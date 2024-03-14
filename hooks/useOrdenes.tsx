@@ -4,9 +4,6 @@ import useSWR, { SWRConfiguration } from "swr"
 
 import { spaxionApi } from "@/api";
 import { IOrder, IOrderItem, IProducto } from "@/interfaces";
-import { Session } from "next-auth";
-import { ProductoStorage } from "@/class";
-
 
 interface PropsOrders {
     ordenes: IOrder[];
@@ -126,6 +123,53 @@ export const updateOrderItem = async (orden: string, ordenitem: string, cantidad
 
         const { data: { messsage, hasError, order } }: AxiosResponse<{messsage: string; hasError: boolean; order: IOrder|null}> = await spaxionApi.post(`/ordenitem/actualizar`, body);
         console.log(order)
+        return {
+            hasError: hasError,
+            message: messsage
+        }
+
+    } catch (error: any) {
+
+        return {
+            hasError: true,
+            message: error.toString()
+        }        
+    }
+
+}//
+export const updateOrderItemUser = async (ordenitem: string, usuario: string ):Promise<{ hasError: boolean; message: string; }> => {
+
+    try {
+
+        const body = {
+            ordenitem, 
+            usuario
+        }
+
+        const { data: { messsage, hasError } }: AxiosResponse<{messsage: string; hasError: boolean; order: IOrder|null}> = await spaxionApi.post(`/ordenitem/actualizar/usuario`, body);
+        return {
+            hasError: hasError,
+            message: messsage
+        }
+
+    } catch (error: any) {
+
+        return {
+            hasError: true,
+            message: error.toString()
+        }        
+    }
+
+}
+export const deleteOrderItemUser = async (ordenitem: string ):Promise<{ hasError: boolean; message: string; }> => {
+
+    try {
+
+        const body = {
+            ordenitem
+        }
+
+        const { data: { messsage, hasError } }: AxiosResponse<{messsage: string; hasError: boolean; order: IOrder|null}> = await spaxionApi.post(`/ordenitem/eliminar/usuario`, body);
         return {
             hasError: hasError,
             message: messsage

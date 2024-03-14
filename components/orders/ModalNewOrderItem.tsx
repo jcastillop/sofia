@@ -15,30 +15,15 @@ interface Props {
 }
 
 export const ModalNewOrderItem: FC<Props> = ({ category, order, orderItems }) => {
-    const inputRef  = useRef<HTMLInputElement>(null);
-    const [open, setOpen] = useState(false);
-    const [placa, setPlaca] = useState("")
     
+    const [open, setOpen] = useState(false);
+        
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
-    const handleAddService = ( value:string ) => {
-        console.log(placa + "-" + value)
-        const orserService: IOrder = {
-            codigo: placa + "-" + value,
-            fecha: new Date(),
-            subTotal: 0,
-            igv: 0,
-            total: 0,
-            comentario: '',
-            isPaid: false,
-            numeroitems: 0,
-            orderitems: []
-        }
-    }
     return(
         <>
             <IconButton sx={{ color:'green'}} onClick={ handleClickOpen }>

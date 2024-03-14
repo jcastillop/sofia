@@ -31,7 +31,7 @@ export const getDatetimeFormat = (dateStringValue: Date) => {
         const month = helperFormat(dateValue.getMonth()+1);
         const dt = helperFormat(dateValue.getDate());        
 
-        const hour = helperFormat(dateValue.getHours()+5);     
+        const hour = helperFormat(dateValue.getHours());     
         const minute = helperFormat(dateValue.getMinutes());     
         const second = helperFormat(dateValue.getSeconds());     
         return year + "-" + month + "-" + dt + " " + hour + ":" + minute + ":" + second;   
@@ -46,6 +46,21 @@ export const getTimeFormat = (dateStringValue: Date) => {
         const hour = helperFormat(dateValue.getHours());     
         const minute = helperFormat(dateValue.getMinutes());     
         return hour + ":" + minute;   
+    } catch (error) {
+        return "Formato inválido"
+    }  
+}
+
+export const getDateFormat = (dateStringValue: Date) => {
+
+    try {
+
+        const dateValue = new Date(dateStringValue)
+        const year = helperFormat(dateValue.getFullYear());
+        const month = helperFormat(dateValue.getMonth()+1);
+        const dt = helperFormat(dateValue.getDate());        
+
+        return year + "-" + month + "-" + dt;   
     } catch (error) {
         return "Formato inválido"
     }  

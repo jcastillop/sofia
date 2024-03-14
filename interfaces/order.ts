@@ -1,5 +1,5 @@
 import { IUser } from ".";
-import { IClient } from "./client";
+import { ICliente } from "./cliente";
 
 export interface IOrder {
 
@@ -15,8 +15,8 @@ export interface IOrder {
     orderitems  : IOrderItem[];
     estado?     : boolean;
 
-    cliente?     : IClient;
-    usuario?       : IUser;
+    cliente?    : ICliente;
+    usuario     : string;
 
     createdAt?  : string;
     updatedAt?  : string;
@@ -44,6 +44,7 @@ export interface IOrderItem {
     fecha?: Date;
     fecha_actualizacion?: Date;
     estado?: boolean;
+    usuario?: string|IUser;
 
     createdAt?: string;
     updatedAt?: string;    

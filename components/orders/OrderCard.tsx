@@ -12,8 +12,6 @@ interface Props {
 
 export const OrderCard: FC<Props> = ({ order }) => {
 
-    const { setOrder } = useContext(OrderContext)
-
     return (
         <Grid item 
             xs={6} 
@@ -29,9 +27,7 @@ export const OrderCard: FC<Props> = ({ order }) => {
                     passHref 
                     prefetch={false} 
                     legacyBehavior>
-                    <Link
-                        onClick={ () => setOrder( order ) }
-                    >
+                    <Link>
                         <div style={{
                             position:'relative'
                         }}>                    

@@ -1,18 +1,18 @@
 'use client'
 import React, { useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
-import { Card, CardContent, Divider, Grid, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 
 import { useParams } from 'next/navigation'
 
-import { MainLayout } from '@/components'
+import { BillingDeleteOrder, BillingDialogChooseType, MainLayout } from '@/components'
 import { useForm } from 'react-hook-form';
 
 import { initialData } from '@/data/seed-data'
 import { OrderDetail, OrderSummary } from '@/components/orders'
 import { OrderContext } from '@/context'
 import { IOrder } from '@/interfaces'
-import { useOrder } from '@/hooks'
+import { useOrder, useUsuarios } from '@/hooks'
 import { formatDecimals } from '@/helpers'
 
 interface Props {
@@ -26,6 +26,8 @@ const Page: NextPage = () => {
 
     const { slug } = useParams<{ slug: string }>()
     const { orden, isLoading, error } = useOrder(slug)
+    const { usuarios  } = useUsuarios();
+    console.log(usuarios)
 
     const numberOfItems = orden?orden.orderitems.reduce( (prev, current) => current.cantidad + prev, 0 ):0;
     const subTotal = formatDecimals(orden?orden.orderitems.reduce( ( prev, current ) => current.valor_total + prev, 0 ):0);
@@ -39,10 +41,18 @@ const Page: NextPage = () => {
             <Typography variant='h1' component='h1'>Detalle de la orden</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={7} sx={{mt:2}}>
-                    <OrderDetail editable={true} order={orden}/>
+                    <OrderDetail editable={true} order={orden} usuarios={usuarios}/>
                 </Grid>
                 <Grid item xs={12} sm={5} sx={{mt:2}}>
-                    <OrderSummary numberOfItems={numberOfItems} subTotal={subTotal} tax={tax} total={total}/>                       
+                    <OrderSummary numberOfItems={numberOfItems} subTotal={subTotal} tax={tax} total={total}/>
+                    <Box sx={{ mt: 3 }}>
+                        {
+                            total > 0
+                            ?<BillingDialogChooseType url={slug}/>
+                            :<></>
+                        }
+                        <BillingDeleteOrder/>
+                    </Box>                    
                 </Grid>
             </Grid>
         </MainLayout>

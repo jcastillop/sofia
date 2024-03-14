@@ -1,7 +1,9 @@
 export interface IEmpresa {
-    uid?: string;
+    _id: string;
     nombre_comercial: string;
     razon_social: string;
     ruc: string;
-    estado: boolean;
+    ubigeo: string;
+    direccion: string;
+    estado?: boolean;
 }

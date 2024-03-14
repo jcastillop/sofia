@@ -7,10 +7,10 @@ import { formatDecimals } from '@/helpers';
 
 
 interface Props {
-    numberOfItems : number;
-    subTotal : number;
-    tax : number;
-    total : number;
+    numberOfItems? : number;
+    subTotal?: number;
+    tax?: number;
+    total?: number;
 }
 
 export const OrderSummary: FC<Props> = ({ numberOfItems, subTotal, tax, total }) => {
@@ -27,13 +27,13 @@ export const OrderSummary: FC<Props> = ({ numberOfItems, subTotal, tax, total })
                             <Typography>No. Productos/Servicios</Typography>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>{ numberOfItems }</Typography>
+                            <Typography>{ numberOfItems?numberOfItems:0 }</Typography>
                         </Grid>
                         <Grid item xs={6}>
                             <Typography>SubTotal</Typography>
                         </Grid>
                         <Grid item xs={6} display='flex' justifyContent='end'>
-                            <Typography>S/ { subTotal }</Typography>
+                            <Typography>S/ { subTotal?subTotal:0 }</Typography>
                         </Grid>
                         <Grid item xs={6}>
                             <Typography>Impuestos ({ Number(process.env.NEXT_PUBLIC_TAX_RATE) * 100 }%)</Typography>
@@ -45,7 +45,7 @@ export const OrderSummary: FC<Props> = ({ numberOfItems, subTotal, tax, total })
                             <Typography variant="subtitle1">Total:</Typography>
                         </Grid>
                         <Grid item xs={6} sx={{ mt:2 }} display='flex' justifyContent='end'>
-                            <Typography variant="subtitle1">S/ { total }</Typography>
+                            <Typography variant="subtitle1">S/ { total?total:0 }</Typography>
                         </Grid>
                     </Grid>
                 </CardContent>
