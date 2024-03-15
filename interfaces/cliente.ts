@@ -10,7 +10,7 @@ export interface ICliente {
     direccion: string;
     correo?: string;
     telefonos?: string[]|string;
-    vehiculos: IClienteVehiculo[]|string;
+    vehiculos?: IClienteVehiculo[]|string;
     
     user?: IUser;
     createdAt?: string;

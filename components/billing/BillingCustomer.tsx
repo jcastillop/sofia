@@ -11,7 +11,7 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import PaymentsIcon from '@mui/icons-material/Payments';
 
 import { UiContext } from '@/context';
-import { saveComprobante } from '@/hooks';
+import { consultaRuc, saveComprobante } from '@/hooks';
 import { Constantes, formatDecimals } from '@/helpers';
 import { IBilling, IBillingItem, ICliente, IOrder, PrintComprobanteTicketProps } from '@/interfaces';
 import { PrintComprobanteTicket } from '..';
@@ -33,9 +33,6 @@ type FormData = {
     yape: number;
 }
 
-
-
-
 export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, subTotal, igv, total, orderitems } }) => {
 
     const router = useRouter();
@@ -47,12 +44,14 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
 
     const { register, reset, setValue, handleSubmit, getValues, formState: { errors } }  = useForm<FormData>({
         defaultValues: {
-            numeroDocumento: cliente?.numero_documento||'', razonSocial: cliente?.razon_social||'', direccion: cliente?.direccion||'', telefono: '', correo: cliente?.correo||'', tarjeta: total, efectivo: 0, yape: 0
+            numeroDocumento: cliente?.numero_documento||'', razonSocial: cliente?.razon_social||'', direccion: cliente?.direccion||'', telefono: '', correo: cliente?.correo||'', tarjeta: 0, efectivo: total, yape: 0
         }
     });
 
-    const [printValues, setPrintValues] = useState<PrintComprobanteTicketProps>(initialDataPrintComprobanteTicket)
-    const [numeracion, setNumeracion] = useState('')
+    //const [printValues, setPrintValues] = useState<PrintComprobanteTicketProps>(initialDataPrintComprobanteTicket)
+    const [ printValuesBilling, setPrintValuesBilling ] = useState<IBilling>(initialDataPrintComprobanteTicket.bill)
+    const [ printValuesClient, setPrintValuesClient ] = useState<ICliente>(initialDataPrintComprobanteTicket.client)
+    const [ numeracion, setNumeracion ] = useState('')
 
     useEffect(() => {
         var items:IBillingItem[] = [];
@@ -78,16 +77,9 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
             items.push(itemBill);
         });        
 
-        const client:ICliente = {
-            tipo_documento: 0,
-            numero_documento: '',
-            razon_social: '',
-            direccion: '',
-            vehiculos: ''
-        }
+
 
         const bill:IBilling = {
-            cliente: cliente?._id,
             tipo_comprobante: tipoComprobante,
             fecha_emision: new Date(),
             total_gravadas: subTotal,
@@ -100,8 +92,22 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
             items: items,
             tipo_facturacion: Constantes.SeriesProposito.PRINCIPAL_BILL
         }
-        setPrintValues({bill, client})
-    }, [cliente, igv, orderitems, session?.user.id, subTotal, tipoComprobante, total])
+        //setPrintValues({bill, client})
+        setPrintValuesBilling(bill)
+    }, [igv, orderitems, session?.user.id, subTotal, tipoComprobante, total])
+
+    useEffect(() => {
+        const client:ICliente = {
+            tipo_documento: getValues("numeroDocumento").length===11?6:0,
+            numero_documento: getValues("numeroDocumento"),
+            razon_social: getValues("razonSocial"),
+            direccion: getValues("direccion"),
+            telefonos: getValues("telefono"),
+            correo: getValues("correo")
+        }
+        setPrintValuesClient(client)
+    }, [getValues])
+    
     
 
  
@@ -126,56 +132,57 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
           }        
     });    
 
-    const handleConsultaCliente = async () => {
-        // const data = await findCustomer(getValues("numeroDocumento"))
-        // if(data.customer && !data.hasError){
-        //     showAlert({mensaje: 'Cliente encontrado'})
-        //     reset({ razonSocial: '', direccion: '', correo: ''});
-        //     setValue("numeroDocumento", data.customer.numero_documento, { shouldValidate: true });
-        //     setValue("razonSocial", data.customer.razon_social, { shouldValidate: true });
-        //     setValue("direccion", data.customer.direccion, { shouldValidate: true });            
-        // }
+    const HandleConsultaCliente = async () => {
+
+        const { hasError, razon_social, direccion } = await consultaRuc(getValues("numeroDocumento"))
+        if(!hasError && razon_social && direccion){
+            showAlert({mensaje: 'Cliente encontrado'})
+            reset({ razonSocial: '', direccion: '', telefono: '', correo: ''});
+            setValue("razonSocial", razon_social, { shouldValidate: true });
+            setValue("direccion", direccion, { shouldValidate: true });
+        }else{
+            showAlert({mensaje: 'Cliente NO encontrado, se registrará un nuevo cliente', severity: 'warning', time: 3000})
+        }
     }
 
     const onSubmitBilling = async (data: FormData) => {
 
-        const { ...valBill } = printValues.bill
+        const { ...valBill } = printValuesBilling
         valBill.pago_tarjeta = data.tarjeta
         valBill.pago_efectivo = data.efectivo
         valBill.pago_yape = data.yape
-        const bill: IBilling = valBill as IBilling
+        //const bill: IBilling = valBill as IBilling
         
         
-        const { ...valClient } = printValues.client
-        valClient.tipo_documento= data.numeroDocumento.length===11?6:0,
-        valClient.numero_documento= data.numeroDocumento,
-        valClient.razon_social= data.razonSocial,
-        valClient.direccion= data.direccion,
-        valClient.correo= data.correo,
-        valClient.telefonos= data.telefono,
-        valClient.vehiculos= codigo         
+        const { ...valClient } = printValuesClient
+        valClient.tipo_documento= data.numeroDocumento.length===11?6:0
+        valClient.numero_documento= data.numeroDocumento
+        valClient.razon_social= data.razonSocial
+        valClient.direccion= data.direccion
+        valClient.correo= data.correo
+        valClient.telefonos= data.telefono
+        valClient.vehiculos= codigo
 
-        const client: ICliente = valClient as ICliente
+        //const client: ICliente = valClient as ICliente
         
-        setPrintValues({ bill, client})
+        //setPrintValues({ bill, client})
 
-        const { message, hasError, comprobante } = await saveComprobante(bill, _id, client)
+        const { message, hasError, comprobante } = await saveComprobante(valBill, _id, valClient)
 
         showAlert({mensaje: message, severity: hasError?'error':'success', time: hasError?7000:1500})
 
         if(!hasError && comprobante){            
             setNumeracion(comprobante.numeracion_comprobante?comprobante.numeracion_comprobante:'')
-            // await setTimeout(function(){      
-            //     handlePrint();
-            // }, 2000);
+            await setTimeout(function(){      
+                handlePrint();
+            }, 2000);
         }else{
-            //emptyOrder();
-            //router.push('/');
+            router.push('/');
         }
     } 
     
     const SearchButton = () => (
-        <IconButton onClick={ handleConsultaCliente }>
+        <IconButton onClick={ HandleConsultaCliente }>
           <Search />
         </IconButton>
     )
@@ -189,13 +196,14 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
                         exclusive
                         onChange={handleTipoDocumento}
                         aria-label="Tipo de documento"        
-                        sx={{ mt: 1 }}                                       
+                        sx={{ mt: 1 }} 
+                        color='secondary'
                     >
                         <ToggleButton value="03">BOLETA</ToggleButton>
                         <ToggleButton value="01">FACTURA</ToggleButton>
                     </ToggleButtonGroup>    
                 </Grid>
-                <PrintComprobanteTicket ref={componentRef} comprobante={printValues.bill} cliente={printValues.client} numeracion={numeracion}/>
+                <PrintComprobanteTicket ref={componentRef} comprobante={printValuesBilling} cliente={printValuesClient} numeracion={numeracion}/>
                 <form onSubmit={ handleSubmit( onSubmitBilling ) }>
                 <Grid container spacing={2} sx={{ mt: 1}}>
                     <Grid item xs={12} sm={12}>

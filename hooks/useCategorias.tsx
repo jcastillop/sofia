@@ -1,11 +1,8 @@
 'use client'
-import { AxiosResponse } from "axios";
-import useSWR, { SWRConfiguration } from "swr"
+import useSWR from "swr"
 
 import { spaxionApi } from "@/api";
 import { ICategoria } from "@/interfaces";
-import { Session } from "next-auth";
-import { ProductoStorage } from "@/class";
 
 interface Props {
     categorias: ICategoria[];

@@ -58,6 +58,7 @@ export const options: NextAuthOptions = {
                             nombre_comercial:   empresa.nombre_comercial,
                             razon_social:       empresa.razon_social,
                             ruc:                empresa.ruc,
+                            direccion:          empresa.direccion,
                             estado:             empresa.estado,
                         }                                                
                     }

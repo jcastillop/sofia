@@ -8,7 +8,8 @@ const constantes = Object.freeze({
         Boleta:         "03",
         NotaCredito:    "07",
         NotaDespacho:   "50",
-        Calibracion:    "51"
+        Calibracion:    "51",
+        Interno:        "52"
     },    
 });
 

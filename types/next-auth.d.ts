@@ -39,6 +39,7 @@ declare module "next-auth" {
       _id: string;
       nombre_comercial: string;
       razon_social: string;
+      direccion: string;
       ruc: string;
       estado: boolean;
     }        

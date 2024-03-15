@@ -15,19 +15,11 @@ import { IOrder } from '@/interfaces'
 import { useOrder, useUsuarios } from '@/hooks'
 import { formatDecimals } from '@/helpers'
 
-interface Props {
-    numberOfItems : number;
-    subTotal : number;
-    tax : number;
-    total : number;
-}
-
 const Page: NextPage = () => {
 
     const { slug } = useParams<{ slug: string }>()
     const { orden, isLoading, error } = useOrder(slug)
     const { usuarios  } = useUsuarios();
-    console.log(usuarios)
 
     const numberOfItems = orden?orden.orderitems.reduce( (prev, current) => current.cantidad + prev, 0 ):0;
     const subTotal = formatDecimals(orden?orden.orderitems.reduce( ( prev, current ) => current.valor_total + prev, 0 ):0);
@@ -48,7 +40,7 @@ const Page: NextPage = () => {
                     <Box sx={{ mt: 3 }}>
                         {
                             total > 0
-                            ?<BillingDialogChooseType url={slug}/>
+                            ?<BillingDialogChooseType url={slug} orden={orden}/>
                             :<></>
                         }
                         <BillingDeleteOrder/>
