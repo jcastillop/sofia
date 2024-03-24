@@ -1,6 +1,4 @@
-import { IEmpresa, IUser } from ".";
-import { ICliente } from "./cliente";
-import { ISupplier } from "./supplier";
+import { IEmpresa, IProducto, IUser, ICliente, IOrder } from ".";
 
 type ValidStates = 'CREATED'|'TRANSLATED'|'SIGNED'|'SEND'|'RESPONSE'|'ERROR'|'SUCCESS'|'INFO';
 
@@ -33,6 +31,7 @@ export interface IBilling {
     pago_yape: number;
     items?: IBillingItem[];
     estados?: IBillingState[];
+    orden: IOrder|string;
     usuario?: string;
     createdAt?: Date;
     updatedAt?: Date;           
@@ -54,6 +53,7 @@ export interface IBillingItem {
     igv_total: number;
     descuento: number;
     fecha?: Date;
+    producto?: IProducto|string;
     usuario?: IUser|string;
 }
 export interface IBillingState {

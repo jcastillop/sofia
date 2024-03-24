@@ -1,4 +1,4 @@
-import { IBillingItem, IOrderItem, IUser } from "@/interfaces";
+import { IBillingItem, IOrderItem, IProducto, IUser } from "@/interfaces";
 
 export class BillingItem implements IBillingItem{
 
@@ -17,6 +17,7 @@ export class BillingItem implements IBillingItem{
     igv_total: number;
     descuento: number;
     fecha?: Date;
+    producto?: string | IProducto;
     usuario?: string | IUser;
 
     constructor(orderitem: IOrderItem) {
@@ -35,5 +36,6 @@ export class BillingItem implements IBillingItem{
       this.igv_total = orderitem.igv_total;    
       this.descuento = orderitem.descuento;    
       this.fecha = new Date()
+      this.producto = orderitem.producto
     }
 }

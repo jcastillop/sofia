@@ -13,6 +13,7 @@ export interface IProducto {
 
     categoria: ICategoria|string;
 
+    img?: string;
     creado?: string;
     actualizado?: string;     
 }

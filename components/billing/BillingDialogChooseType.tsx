@@ -57,6 +57,7 @@ export const BillingDialogChooseType: FC<Props> = ( { url, orden }) => {
                 igv: item.igv,
                 igv_total: formatDecimals(item.igv_total),
                 descuento: item.descuento,
+                producto: item.producto,
                 fecha: new Date()
             }
             items.push(itemBill);
@@ -80,17 +81,18 @@ export const BillingDialogChooseType: FC<Props> = ( { url, orden }) => {
             pago_yape: 0,
             usuario: session?.user.id,
             items: items,
-            tipo_facturacion: Constantes.SeriesProposito.PRINCIPAL_BILL
+            tipo_facturacion: Constantes.SeriesProposito.PRINCIPAL_BILL,
+            orden: orden._id?orden._id:''
         }
         
         setPrintValues({ bill, client})
-    },[orden.igv, orden.orderitems, orden.subTotal, orden.total, session?.user.id])
+    },[orden._id, orden.igv, orden.orderitems, orden.subTotal, orden.total, session?.user.id])
 
     const onSubmiBillingType = async () => {
         if (orden) {
             const _id = orden._id?orden._id:''
             
-            const { message, hasError, comprobante } = await saveComprobante(printValues.bill, _id, printValues.client)
+            const { message, hasError, comprobante } = await saveComprobante(printValues.bill, printValues.client)
     
             showAlert({mensaje: message, severity: hasError?'error':'success', time: hasError?7000:1500})
     

@@ -14,15 +14,5 @@ export const nuevoProducto: IProducto = {
         descripcion: "",
         empresa: ""
     },
-    aplicacion: {
-        nombre: "",
-        descripcion: "",
-        estado: false
-    },
-    empresa: {
-        nombre_comercial: "",
-        razon_social: "",
-        ruc: "",
-        estado: false
-    }
+    img: ""
 }

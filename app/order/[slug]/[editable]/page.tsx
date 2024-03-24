@@ -17,7 +17,8 @@ import { formatDecimals } from '@/helpers'
 
 const Page: NextPage = () => {
 
-    const { slug } = useParams<{ slug: string }>()
+    const { slug, editable } = useParams<{ slug: string, editable: string }>()
+    const bEditableValue = editable === 'true';
     const { orden, isLoading, error } = useOrder(slug)
     const { usuarios  } = useUsuarios();
 
@@ -33,17 +34,28 @@ const Page: NextPage = () => {
             <Typography variant='h1' component='h1'>Detalle de la orden</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={7} sx={{mt:2}}>
-                    <OrderDetail editable={true} order={orden} usuarios={usuarios}/>
+                    <OrderDetail editable={bEditableValue} order={orden} usuarios={usuarios}/>
                 </Grid>
                 <Grid item xs={12} sm={5} sx={{mt:2}}>
                     <OrderSummary numberOfItems={numberOfItems} subTotal={subTotal} tax={tax} total={total}/>
                     <Box sx={{ mt: 3 }}>
                         {
-                            total > 0
-                            ?<BillingDialogChooseType url={slug} orden={orden}/>
+                            bEditableValue
+                            ?
+                            (
+                                total > 0
+                                ?<BillingDialogChooseType url={slug} orden={orden}/>
+                                :<></>
+                            )
                             :<></>
                         }
-                        <BillingDeleteOrder/>
+                        {
+                            bEditableValue
+                            ?
+                            <BillingDeleteOrder/>
+                            :<></>
+                        }
+                        
                     </Box>                    
                 </Grid>
             </Grid>

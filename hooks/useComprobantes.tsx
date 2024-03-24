@@ -25,9 +25,9 @@ export const useComprobantes = () => {
     }
 }
 
-export const saveComprobante = async (billing: IBilling, orden: string, client?: ICliente):Promise<{ hasError: boolean; message: string; comprobante: IBilling| null; }> => {
+export const saveComprobante = async (billing: IBilling, client?: ICliente):Promise<{ hasError: boolean; message: string; comprobante: IBilling| null; }> => {
 
-    const data = { billing, orden, client }
+    const data = { billing, client }
 
     try {
 

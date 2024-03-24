@@ -28,7 +28,6 @@ export const useProducts = () => {
 
 export const saveProduct = async (product: IProducto):Promise<{ hasError: boolean; message: string; producto: IProducto| null; }> => {
 
-    console.log("entrando a saveProduct")
     try {
 
         const { data: { messsage, hasError, producto } }: AxiosResponse<{messsage: string; hasError: boolean; producto: IProducto|null}> = await spaxionApi.post(`/productos`, product);

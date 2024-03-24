@@ -7,7 +7,7 @@ import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { MainLayout, ProductDialog } from "@/components";
 import { Constantes, getDatetimeFormat } from "@/helpers";
 import { useComprobantes } from "@/hooks";
-import { IBilling, IBillingState, ICliente } from "@/interfaces";
+import { IBilling, IBillingState, ICliente, IOrder } from "@/interfaces";
 
 const HistoricoPage: NextPage = () => {
 
@@ -25,14 +25,14 @@ const HistoricoPage: NextPage = () => {
         gravadas        : comprobante.total_gravadas,
         igv             : comprobante.total_igv,
         total           : comprobante.total_venta,
-        sunat           : (comprobante.estados as unknown as IBillingState[])[0].value,
+        //sunat           : (comprobante.estados as unknown as IBillingState[])[0].value,
         pdf             : comprobante.url,
         usuario         : comprobante.usuario,
         items           : comprobante.items,
         cadena_qr       : comprobante.cadena_para_codigo_qr,
         hash            : comprobante.codigo_hash,
         errores         : comprobante.errors,
-        url             : comprobante.url
+        orden           : comprobante.orden
     }));
 
     const columns: GridColDef[] = [
@@ -45,33 +45,44 @@ const HistoricoPage: NextPage = () => {
         { field: 'total',   headerName: 'Total', width: 100 },
         { field: 'pdf', headerName: 'PDF', 
         renderCell: (params: GridRenderCellParams<any>) => { 
-          return <a target="_blank" href={params.row.pdf} rel="noopener noreferrer">
-          PDF
-          </a>
-            
+          if(params.row.pdf){
+            return <a target="_blank" href={params.row.pdf} rel="noopener noreferrer">
+            PDF
+            </a>
+          }else{
+            return(<></>)
+          }  
         },width: 100,
       },         
-        { 
-            field: 'sunat',
-            headerName: 'SUNAT',
-            renderCell: (params: GridRenderCellParams<any>)=> {
-                if(params.row.tipo == Constantes.TipoComprobante.Factura || params.row.tipo == Constantes.TipoComprobante.Boleta || params.row.tipo == Constantes.TipoComprobante.NotaCredito){
-                    if(params.row.error){
-                      return <Chip key={ params.row.id } variant='filled' label="Error SUNAT" color="error" component={ Link } href={`/`} clickable/>
-                    // }else if(!params.row.hash){
-                    //   return <Chip key={ params.row.id } variant='filled' label="Regularizar" color="warning" component={ Link } href={`/fueledit/${params.row.abastecimiento}?id=${params.row.id}&tipo=${params.row.tipo}&correlativo=${params.row.comprobante}`} clickable/>
-                    }else{
-                      return <Chip variant='filled' label="Correcto" color="success" />
-                      //return <Chip key={ params.row.id } variant='filled' label="Correcto" color="success" component={ Link } href={`/fueledit/${params.row.abastecimiento}?id=${params.row.id}&tipo=${params.row.tipo}&correlativo=${params.row.comprobante}`} clickable/>
-                    }
-                    
+      { 
+          field: 'sunat',
+          headerName: 'SUNAT',
+          renderCell: (params: GridRenderCellParams<any>)=> {
+              if(params.row.tipo == Constantes.TipoComprobante.Factura || params.row.tipo == Constantes.TipoComprobante.Boleta || params.row.tipo == Constantes.TipoComprobante.NotaCredito){
+                  if(params.row.errores){
+                    return <Chip key={ params.row.id } variant='filled' label="Error SUNAT" color="error" component={ Link } href={`/`} clickable/>
+                  // }else if(!params.row.hash){
+                  //   return <Chip key={ params.row.id } variant='filled' label="Regularizar" color="warning" component={ Link } href={`/fueledit/${params.row.abastecimiento}?id=${params.row.id}&tipo=${params.row.tipo}&correlativo=${params.row.comprobante}`} clickable/>
                   }else{
-                    return(<></>)
-                  }                
-            },
-            width: 100 
-        }
-      ]
+                    return <Chip variant='filled' label="Correcto" color="success" />
+                    //return <Chip key={ params.row.id } variant='filled' label="Correcto" color="success" component={ Link } href={`/fueledit/${params.row.abastecimiento}?id=${params.row.id}&tipo=${params.row.tipo}&correlativo=${params.row.comprobante}`} clickable/>
+                  }
+                  
+                }else{
+                  return(<></>)
+                }                
+          },
+          width: 100 
+      },
+      { 
+        field: 'orden',
+        headerName: 'Detalle',
+        renderCell: (params: GridRenderCellParams<any>)=> {
+          return <Chip key={ params.row.id } variant='filled' label="Ver detalle" color="secondary" component={ Link } href={`/order/${params.row.orden}/${false}`} clickable/>
+        },
+        width: 100 
+    }      
+    ]
     
 
     return (

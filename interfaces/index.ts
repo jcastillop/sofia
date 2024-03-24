@@ -10,3 +10,4 @@ export * from './producto';
 export * from './rol';
 export * from './ui';
 export * from './user';
+export * from './reporte';

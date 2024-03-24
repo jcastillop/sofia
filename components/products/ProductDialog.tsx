@@ -1,17 +1,18 @@
 "use client"
 import { FC, useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import Image from "next/image";
 import {Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, MenuItem}  from '@mui/material/';
 import { useForm } from 'react-hook-form';
 import CreateIcon from '@mui/icons-material/Create';
+import { getSession } from 'next-auth/react';
+import { UploadButton } from "@/utils/uploadthing";
 
 import { ICategoria, IProducto } from '@/interfaces';
 import { UiContext } from '@/context';
 import { saveProduct, updateProduct, useCategorias, useProducts } from '@/hooks';
-import { Constantes } from '@/helpers';
-import variables from '@/helpers/variables';
-import { getSession, useSession } from 'next-auth/react';
-import { mutate } from 'swr';
+import { ImageUpload } from '..';
+
+
 
 interface Props{
     product? : IProducto;
@@ -20,6 +21,13 @@ interface Props{
 
 // TODO: Validaciones del formulario
 export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
+
+    useEffect(() => {
+        if(product?.img){
+            setImageUrl(product.img)
+        }
+    }, [product?.img])
+    
 
     const { showAlert } = useContext( UiContext );
 
@@ -44,8 +52,10 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
 
     const onSubmitUser = async (storageProducto: IProducto) => {
         const session = await getSession();
-        storageProducto.precio_unitario.format()
-        storageProducto.valor_unitario.format()
+        console.log(storageProducto)
+        // storageProducto.precio_unitario.format()
+        // storageProducto.valor_unitario.format()
+        storageProducto.img = imageUrl
         const { hasError, message, producto } = newProduct? await saveProduct(storageProducto): await updateProduct(storageProducto);
         mutate();
         showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})  
@@ -54,6 +64,8 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
     }
 
     const [open, setOpen] = useState(false);
+
+    const [imageUrl, setImageUrl] = useState<string>('')
     
     const handleClickOpen = async () => {   
         setOpen(true);
@@ -223,25 +235,60 @@ export const ProductDialog: FC<Props> = ({ product, newProduct }) => {
                             helperText={ errors.valor_unitario?.message }
                             disabled
                         />
-                    </Grid>                                                                                                                        
+                    </Grid>
+                    <Grid item xs={12} sm={6} display='flex' justifyContent='left'>
+                        <UploadButton
+                            endpoint="imageUploader"
+                            onClientUploadComplete={(res) => {
+                            // Do something with the response
+                            // console.log("Files: ", res);
+                            //     alert("Upload Completed");
+                                setImageUrl(res[0].url)
+                                console.log(res[0].url)
+                            }}
+                            onUploadError={(error: Error) => {
+                            // Do something with the error.
+                            alert(`ERROR! ${error.message}`);
+                            }}
+                            content={{
+                                button({ ready }) {
+                                    if (ready) return <div>Cargar imagen</div>;
+                                    return "Cargando componente...";
+                                },
+                                allowedContent({ ready, fileTypes, isUploading }) {
+                                    if (!ready) return "Checking what you allow";
+                                    if (isUploading) return "Cargando..";
+                                    return `tipo: ${fileTypes.join(", ")}`;
+                                },
+                                }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} display='flex' justifyContent='center'>
+                    { 
+                        imageUrl.length
+                        ?<div><Image  src={imageUrl} alt='Producto' width={100} height={100}/></div>
+                        :null 
+                    }
+                    </Grid>
+                    
                 </Grid>
 
             </DialogContent>
             <DialogActions>
-            <Button
-                color='success'
-                className='circular-btn'
-                type='submit'
-            >                           
-                Guardar producto
-            </Button>
-            <Button 
-            onClick={handleClose}
-            color='error'
-            className='circular-btn'            
-            >
-                Cancelar
-            </Button>
+                <Button
+                    color='success'
+                    className='circular-btn'
+                    type='submit'
+                >                           
+                    Guardar producto
+                </Button>
+                <Button 
+                onClick={handleClose}
+                color='error'
+                className='circular-btn'            
+                >
+                    Cancelar
+                </Button>
             </DialogActions>
             </form>
         </Dialog>

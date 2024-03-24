@@ -66,7 +66,8 @@ export const initialDataPrintComprobanteTicket: PrintComprobanteTicketProps = {
         pago_tarjeta: 0,
         pago_efectivo: 0,
         pago_yape: 0,
-        tipo_facturacion: ""
+        tipo_facturacion: "",
+        orden: ""
     },
     client: {
         tipo_documento: 0,

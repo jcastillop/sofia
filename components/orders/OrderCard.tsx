@@ -22,7 +22,8 @@ export const OrderCard: FC<Props> = ({ order }) => {
             borderTop:'3px solid #F6F6F6'
             }}>
                 <NextLink 
-                    href={`/order/${order._id}`} 
+                
+                    href={`/order/${order._id}/${true}`} 
                     aria-disabled={true}
                     passHref 
                     prefetch={false} 

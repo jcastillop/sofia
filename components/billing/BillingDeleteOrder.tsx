@@ -23,7 +23,8 @@ export const BillingDeleteOrder: FC = () => {
     const { register, reset, handleSubmit, trigger, setValue, getValues, formState: { errors } }  = useForm();
 
     const onSubmiBillingDelete = () => {
-        showAlert({ mensaje: "hola que hace"});
+        //showAlert({ mensaje: "hola que hace"});
+        console.log(new Date())
         handleClose();
     }      
 

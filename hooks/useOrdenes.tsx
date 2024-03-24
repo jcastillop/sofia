@@ -79,7 +79,8 @@ export const saveOrder = async (order: IOrder):Promise<{ hasError: boolean; mess
 export const saveOrderItem = async (orden: string, producto: string, ordenitem: IOrderItem ):Promise<{ hasError: boolean; message: string; ordenProducto: IOrder| null; }> => {
 
     try {
-
+        ordenitem.fecha = new Date()
+        console.log(ordenitem.fecha)
         const body = {
             orden,
             producto, 

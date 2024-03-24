@@ -72,6 +72,7 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
                 igv: item.igv,
                 igv_total: formatDecimals(item.igv_total),
                 descuento: item.descuento,
+                producto: item.producto,
                 fecha: new Date()
             }
             items.push(itemBill);
@@ -90,11 +91,12 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
             pago_yape: 0,
             usuario: session?.user.id,
             items: items,
-            tipo_facturacion: Constantes.SeriesProposito.PRINCIPAL_BILL
+            tipo_facturacion: Constantes.SeriesProposito.PRINCIPAL_BILL,
+            orden: _id
         }
         //setPrintValues({bill, client})
         setPrintValuesBilling(bill)
-    }, [igv, orderitems, session?.user.id, subTotal, tipoComprobante, total])
+    }, [_id, igv, orderitems, session?.user.id, subTotal, tipoComprobante, total])
 
     useEffect(() => {
         const client:ICliente = {
@@ -133,13 +135,15 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
     });    
 
     const HandleConsultaCliente = async () => {
-
-        const { hasError, razon_social, direccion } = await consultaRuc(getValues("numeroDocumento"))
+        const numero_documento = getValues("numeroDocumento")
+        const { hasError, razon_social, direccion } = await consultaRuc(numero_documento)
         if(!hasError && razon_social && direccion){
             showAlert({mensaje: 'Cliente encontrado'})
             reset({ razonSocial: '', direccion: '', telefono: '', correo: ''});
             setValue("razonSocial", razon_social, { shouldValidate: true });
             setValue("direccion", direccion, { shouldValidate: true });
+            setPrintValuesClient({ tipo_documento: numero_documento.length===11?6:0, numero_documento: numero_documento, razon_social, direccion })
+
         }else{
             showAlert({mensaje: 'Cliente NO encontrado, se registrará un nuevo cliente', severity: 'warning', time: 3000})
         }
@@ -167,7 +171,7 @@ export const BillingCustomer:FC<Props> = ({ order:{ _id = "", codigo, cliente, s
         
         //setPrintValues({ bill, client})
 
-        const { message, hasError, comprobante } = await saveComprobante(valBill, _id, valClient)
+        const { message, hasError, comprobante } = await saveComprobante(valBill, valClient)
 
         showAlert({mensaje: message, severity: hasError?'error':'success', time: hasError?7000:1500})
 

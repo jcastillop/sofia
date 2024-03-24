@@ -28,7 +28,8 @@ const ProductPage: NextPage = () => {
     descripcion     : product.descripcion,
     precio_unitario : product.precio_unitario,
     valor_unitario  : product.valor_unitario,
-    unidad_medida   : product.unidad_medida
+    unidad_medida   : product.unidad_medida,
+    img             : product.img
   }));
 
   const columns: GridColDef[] = [
@@ -61,7 +62,8 @@ const ProductPage: NextPage = () => {
             nombre: params.row.categoria,
             descripcion: '',
             empresa: ''
-          }
+          },
+          img: params.row.img
         }
           return <ProductDialog product={ dataProducto } newProduct={ false }/>
       }, width: 150

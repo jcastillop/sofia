@@ -100,9 +100,12 @@ export const OrderDetail: FC<Props> = ({ editable = false, order:{ _id = "", cod
                                     </Grid>
                                     <Grid item xs={4} display='flex' alignItems='center'>
                                         {
+                                            editable
+                                            ?
                                             item._id
                                             ?<UserTextAutocomplete usuarios={usuarios} item_id={item._id} usuario={item.usuario?(item.usuario as IUser):null}/>
-                                            :<></>
+                                            :<></>                                            
+                                            :<Typography variant="body1">{item.usuario?(item.usuario as IUser).usuario:null}</Typography>
                                         }
                                         {/* <IconButton color='secondary' onClick={ () => removeOrderItem( item ) }>
                                             <Create />
@@ -185,49 +188,5 @@ export const OrderDetail: FC<Props> = ({ editable = false, order:{ _id = "", cod
                 </CardContent>
             </Card>
         </Box>
-
-        // <>
-        //     {
-        //         productsToShow && productsToShow.map( product => (
-        //             <Grid container spacing={2} key={ product.uid } sx={{ mb:1 }}>
-
-        //                 <Grid item xs={8}>
-        //                     <Box display='flex' flexDirection='column'>
-        //                         <Typography variant='body1'>{ product.name }</Typography>
-        //                         {
-        //                             editable 
-        //                             ? (
-        //                                 <ItemCounter 
-        //                                     currentValue={ product.quantity }
-        //                                     maxValue={ 10 } 
-        //                                     updatedQuantity={ ( value ) => onNewCartQuantityValue(product as ICartProduct, value )}
-        //                                 />
-        //                             )
-        //                             : (
-        //                                 <Typography variant='h5'>{ product.quantity } { product.quantity > 1 ? 'productos':'producto' }</Typography>
-        //                             )
-        //                         }
-                                
-        //                     </Box>
-        //                 </Grid>
-        //                 <Grid item xs={4} display='flex' alignItems='center' flexDirection='column'>
-        //                     <Typography variant='subtitle1'>{ `S/ ${ product.unit_price }` }</Typography>
-                            
-        //                     {
-        //                         editable && (
-        //                             <Button 
-        //                                 variant='text' 
-        //                                 color='secondary' 
-        //                                 onClick={ () => removeCartProduct( product as ICartProduct ) }
-        //                             >
-        //                                 Remover
-        //                             </Button>
-        //                         )
-        //                     }
-        //                 </Grid>
-        //             </Grid>
-        //         ))
-        //     }
-        // </>
     )
 }

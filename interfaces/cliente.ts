@@ -11,8 +11,6 @@ export interface ICliente {
     correo?: string;
     telefonos?: string[]|string;
     vehiculos?: IClienteVehiculo[]|string;
-    
-    user?: IUser;
     createdAt?: string;
     updatedAt?: string;    
 }
