@@ -6,3 +6,4 @@ export * from './prints';
 export * from './products';
 export * from './reports';
 export * from './ui';
+export * from './users';

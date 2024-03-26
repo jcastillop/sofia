@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { Box, Divider, Drawer, Link, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
-import { CloseOutlined, Face2Outlined, InsertInvitationOutlined, InventoryOutlined, LoginOutlined, PersonOutlineOutlined, SavingsOutlined } from "@mui/icons-material"
+import { CloseOutlined, Face2Outlined, InsertInvitationOutlined, InventoryOutlined, LoginOutlined, PersonOutlineOutlined, SavingsOutlined, ManageAccountsOutlined } from "@mui/icons-material"
 
 import { signOut, useSession } from 'next-auth/react';
 import { UiContext } from "@/context";
@@ -32,7 +32,7 @@ export const SideMenu = () => {
                     <ListItemText primary={''} />
                 </ListItemButton>                  
                 <Divider />
-                <ListItemButton LinkComponent={Link} href="/perfil">
+                <ListItemButton LinkComponent={Link} href="/profile">
                     <ListItemIcon>
                         <PersonOutlineOutlined/>
                     </ListItemIcon>
@@ -58,7 +58,14 @@ export const SideMenu = () => {
                         <InsertInvitationOutlined/>
                     </ListItemIcon>
                     <ListItemText primary={'Reportes'} />
-                </ListItemButton>                       
+                </ListItemButton>
+
+                <ListItemButton LinkComponent={Link} href="/users">
+                    <ListItemIcon>
+                        <ManageAccountsOutlined/>
+                    </ListItemIcon>
+                    <ListItemText primary={'Usuarios'} />
+                </ListItemButton>                                        
 
                 <ListItemButton LinkComponent={Link} href="/cierre">
                     <ListItemIcon>

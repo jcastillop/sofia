@@ -6,8 +6,9 @@ export interface IUser {
     usuario: string;
     nombre: string;
     correo: string;        
-    rol: IRol;
-    aplicacion: IAplicacion;
-    empresa: IEmpresa;
+    password?: string;  
+    rol?: IRol | string;
+    aplicacion?: IAplicacion | string;
+    empresa?: IEmpresa | string;
     estado?: boolean;
 }

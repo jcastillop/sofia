@@ -5,6 +5,7 @@ export * from './categoria';
 export * from './cliente';
 export * from './empresa';
 export * from './order';
+export * from './parametro';
 export * from './print';
 export * from './producto';
 export * from './rol';

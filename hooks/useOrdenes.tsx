@@ -76,11 +76,29 @@ export const saveOrder = async (order: IOrder):Promise<{ hasError: boolean; mess
 
 }
 
+export const deleteOrder = async (id: string):Promise<{ hasError: boolean; message: string; }> => {
+
+    try {
+        const { data: { messsage, hasError } }: AxiosResponse<{messsage: string; hasError: boolean}> = await spaxionApi.post(`/ordenes/eliminar`, { id });
+        return {
+            hasError: hasError,
+            message: messsage
+        }  
+
+    } catch (error: any) {
+        console.log(error.toString())
+        return {
+            hasError: true,
+            message: error.toString()
+        }        
+    }
+}
+
 export const saveOrderItem = async (orden: string, producto: string, ordenitem: IOrderItem ):Promise<{ hasError: boolean; message: string; ordenProducto: IOrder| null; }> => {
 
     try {
         ordenitem.fecha = new Date()
-        console.log(ordenitem.fecha)
+
         const body = {
             orden,
             producto, 
@@ -112,6 +130,7 @@ export const saveOrderItem = async (orden: string, producto: string, ordenitem: 
     }
 
 }
+
 export const updateOrderItem = async (orden: string, ordenitem: string, cantidad: number ):Promise<{ hasError: boolean; message: string; }> => {
 
     try {
@@ -137,7 +156,8 @@ export const updateOrderItem = async (orden: string, ordenitem: string, cantidad
         }        
     }
 
-}//
+}
+
 export const updateOrderItemUser = async (ordenitem: string, usuario: string ):Promise<{ hasError: boolean; message: string; }> => {
 
     try {
@@ -162,6 +182,7 @@ export const updateOrderItemUser = async (ordenitem: string, usuario: string ):P
     }
 
 }
+
 export const deleteOrderItemUser = async (ordenitem: string ):Promise<{ hasError: boolean; message: string; }> => {
 
     try {
@@ -185,16 +206,12 @@ export const deleteOrderItemUser = async (ordenitem: string ):Promise<{ hasError
     }
 
 }
+
 export const deleteOrderItem = async (orden: string, ordenitem: string):Promise<{ hasError: boolean; message: string; }> => {
 
     try {
 
-        const body = {
-            orden,
-            ordenitem
-        }
-
-        const { data: { messsage, hasError } }: AxiosResponse<{messsage: string; hasError: boolean; ordenProducto: IOrder|null}> = await spaxionApi.post(`/ordenitem/eliminar`, body);
+        const { data: { messsage, hasError } }: AxiosResponse<{messsage: string; hasError: boolean; ordenProducto: IOrder|null}> = await spaxionApi.post(`/ordenitem/eliminar`, { orden, ordenitem });
 
         return {
             hasError: hasError,

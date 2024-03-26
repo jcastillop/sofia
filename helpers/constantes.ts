@@ -10,7 +10,12 @@ const constantes = Object.freeze({
         NotaDespacho:   "50",
         Calibracion:    "51",
         Interno:        "52"
-    },    
+    },
+    Empresas:{
+        ELPAISA : "64e4bb49eb9067df62d106db",
+        SPAXION : "64acc6d680d17c210fd9f1b0"
+    },
+    DEFAULT_PASSWORD: "123456"
 });
 
 export default constantes;

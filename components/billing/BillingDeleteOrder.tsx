@@ -5,8 +5,13 @@ import { useRouter } from 'next/navigation';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Typography } from "@mui/material";
 
 import { UiContext } from "@/context/ui";
+import { deleteOrder } from "@/hooks";
 
-export const BillingDeleteOrder: FC = () => {
+interface Props{
+    orden: string
+}
+
+export const BillingDeleteOrder: FC<Props> = ({ orden }) => {
 
     const router = useRouter();
     const { showAlert } = useContext( UiContext );
@@ -22,10 +27,12 @@ export const BillingDeleteOrder: FC = () => {
 
     const { register, reset, handleSubmit, trigger, setValue, getValues, formState: { errors } }  = useForm();
 
-    const onSubmiBillingDelete = () => {
-        //showAlert({ mensaje: "hola que hace"});
-        console.log(new Date())
+    const onSubmiBillingDelete = async () => {
+        console.log(orden)
+        const { hasError, message } = await deleteOrder(orden)
+        showAlert({mensaje: message, severity: hasError? 'error':'success', time: 1500})
         handleClose();
+        router.push('/');
     }      
 
     return(

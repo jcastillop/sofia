@@ -52,7 +52,7 @@ const Page: NextPage = () => {
                         {
                             bEditableValue
                             ?
-                            <BillingDeleteOrder/>
+                            <BillingDeleteOrder orden={slug}/>
                             :<></>
                         }
                         

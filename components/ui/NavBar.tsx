@@ -1,31 +1,28 @@
 "use client"
-import NextLink from "next/link";
-import { AppBar, Badge, Box, Button, IconButton, Link, Toolbar, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { usePathname } from 'next/navigation'
-import { LibraryAddRounded } from "@mui/icons-material";
-
-import { OrderContext, UiContext } from "@/context";
 import { useContext } from "react";
-import { initialData } from "@/data/seed-data";
-import { ModalNewOrder } from "..";
+import NextLink from "next/link";
+import { usePathname } from 'next/navigation'
+import { AppBar, Badge, Box, Button, Link, Toolbar, Typography } from "@mui/material";
+
+import { UiContext } from "@/context";
+import { useParametros } from "@/hooks";
 
 export const Navbar = () => {
 
   const asPath = usePathname()
   const { toggleSideMenu } = useContext( UiContext );
-  const { numberOfItems } = useContext( OrderContext );
-  
-  
+  const { error, isLoading, parametros } = useParametros()
 
+  if(!parametros) return (<></>)
+  
   return (
     <AppBar>
         <Toolbar>
 
             <NextLink href='/' passHref legacyBehavior>
                 <Link display={"flex"} alignItems='center'>
-                    <Typography variant="h6">{`${initialData.params.company} |`}</Typography>
-                    <Typography sx={{ ml:0.5 }}>{`${initialData.params.description}`}</Typography>
+                    <Typography variant="h6">{`${parametros.company} |`}</Typography>
+                    <Typography sx={{ ml:0.5 }}>{`${parametros.descripcion}`}</Typography>
                 </Link>
             </NextLink>
 
@@ -33,10 +30,10 @@ export const Navbar = () => {
 
             <Box sx={{ display: { xs:'none', sm:'block' } }}>
               {
-                  initialData.params.pages.filter((page)=>(page.isHomeLink)).map( page => (
-                    <NextLink key={page.id} href={page.link} passHref legacyBehavior>
+                  parametros.paginas.filter((page)=>(page.ishomelink)).map( page => (
+                    <NextLink key={page._id} href={page.link} passHref legacyBehavior>
                       <Link>
-                        <Button color={ asPath === page.link?'primary':'info' }>{page.name}</Button>
+                        <Button color={ asPath === page.link?'primary':'info' }>{page.nombre}</Button>
                       </Link>
                     </NextLink>     
                   ) )
