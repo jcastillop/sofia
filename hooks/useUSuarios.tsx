@@ -10,7 +10,7 @@ interface PropsOrders {
     usuarios: IUser[];
     total: number;
 }
-
+/*Modidifando para git*/
 export const useUsuarios = () => {   
 
     const fetcher = (urlFetcher: string) => spaxionApi.get(`${urlFetcher}`).then(res => res.data)
